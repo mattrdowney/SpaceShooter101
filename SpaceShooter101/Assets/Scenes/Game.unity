@@ -182,6 +182,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Enemy: {fileID: 5664491459081288752, guid: fd4751cd6ba1e487a8be45342a4b0510, type: 3}
   m_EnemyHolder: {fileID: 80121466}
+  m_EnemySkin:
+  - {fileID: 21300000, guid: 8e4725d943ec74e7c9e801202bdba28b, type: 3}
+  - {fileID: 21300000, guid: c4114fb95949a4b4f9613fa509ba3d9b, type: 3}
+  - {fileID: 21300000, guid: 6c4cb78d45e06480cb8bfc56a60d2cb3, type: 3}
+  - {fileID: 21300000, guid: 87a1668e05d744287b38c25e6f3b116f, type: 3}
+  - {fileID: 21300000, guid: 526de7b25c4134564b3210c2de086b5c, type: 3}
+  - {fileID: 21300000, guid: 964b506b70cd1425882c976f995647ea, type: 3}
+  - {fileID: 21300000, guid: 5d9bd47126d564816860e6cfeb191e50, type: 3}
+  - {fileID: 21300000, guid: 26102a9c0a8d54aa2b8a4aa5fed65fd1, type: 3}
+  - {fileID: 21300000, guid: 0be204c3b011b4c81a672cdf8ce7ea33, type: 3}
+  - {fileID: 21300000, guid: b132112f9f442418791e06582594dfc9, type: 3}
 --- !u!114 &296050119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,4 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da83c63a15104f199bd29ab7829a13e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 100
+  HitPoints: 0
+  GunPower: 0
+  BulletCount: 0
+  m_Speed: 5

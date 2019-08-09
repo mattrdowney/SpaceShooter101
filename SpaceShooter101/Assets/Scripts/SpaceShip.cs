@@ -8,6 +8,15 @@ namespace praveen.One
     {
         // Bullets
         // Reload Time
+        public int HitPoints;
+        public int GunPower;
+        public int BulletCount;
+
+        public virtual void Init(int hitpoints, Sprite skin)
+        {
+            HitPoints = hitpoints;
+            GetComponent<SpriteRenderer>().sprite = skin;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -20,10 +29,6 @@ namespace praveen.One
         {
 
         }
-
-
-
-
 
         public virtual void Shoot()
         {

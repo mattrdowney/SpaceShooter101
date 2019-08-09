@@ -20,11 +20,24 @@ namespace praveen.One
 
         #endregion
 
+        #region PrivateFields
+        int m_Level;
+        #endregion
+
         private void Awake()
         {
             m_Instance = this;
         }
 
+
+        /// <summary>
+        /// Returns Level
+        /// </summary>
+        /// <returns></returns>
+        public int GetLevel()
+        {
+            return m_Level;
+        }
 
         /// <summary>
         /// Returns world position of Upper Left Screen boundry

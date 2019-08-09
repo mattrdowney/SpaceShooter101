@@ -11,8 +11,7 @@ namespace praveen.One
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log(Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0)));
-            Debug.Log(Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)));
+
         }
 
         void FixedUpdate()

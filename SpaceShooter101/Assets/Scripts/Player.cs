@@ -2,7 +2,7 @@
 
 namespace praveen.One
 {
-    public class Player : MonoBehaviour
+    public class Player : SpaceShip
     {
         [SerializeField] float m_Speed = 100;
         private Transform m_PlayerTransform;
@@ -41,6 +41,11 @@ namespace praveen.One
 
             //Convert to world point then apply result to the target object
             m_PlayerTransform.position = Camera.main.ViewportToWorldPoint(camViewPoint);
+        }
+
+        public override void Shoot()
+        {
+            base.Shoot();
         }
     }
 

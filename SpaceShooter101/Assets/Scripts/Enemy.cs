@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace praveen.One
@@ -8,10 +7,12 @@ namespace praveen.One
     {
 
         [SerializeField] float m_Speed;
+
+        [SerializeField] Transform m_Gun;
         // Start is called before the first frame update
         void Start()
         {
-
+            
         }
 
         void FixedUpdate()
@@ -21,14 +22,29 @@ namespace praveen.One
 
         void Update()
         {
-            Recycle(); 
+            Recycle();
+            
         }
 
         public override void Shoot()
         {
-            base.Shoot();
+            StartCoroutine(EnemyShoot());
         }
 
+
+        IEnumerator EnemyShoot()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                GameObject bullet = BulletController.GetBullet();
+                bullet.transform.SetParent(m_Gun);
+                bullet.transform.localPosition = Vector3.zero;
+                bullet.transform.localRotation = Quaternion.identity;
+                bullet.layer = 11;
+                bullet.SetActive(true);
+                yield return new WaitForSeconds(1);
+            }
+        }
 
 
         private void Recycle()

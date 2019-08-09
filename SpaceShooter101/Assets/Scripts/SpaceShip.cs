@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using praveen.One.util;
 using UnityEngine;
 
 namespace praveen.One
 {
     public class SpaceShip : MonoBehaviour
     {
+
         // Bullets
         // Reload Time
         public int HitPoints;
@@ -16,6 +16,7 @@ namespace praveen.One
         {
             HitPoints = hitpoints;
             GetComponent<SpriteRenderer>().sprite = skin;
+            Shoot();
         }
 
         // Start is called before the first frame update
@@ -34,8 +35,6 @@ namespace praveen.One
         {
 
         }
-
-
     }
 }
 

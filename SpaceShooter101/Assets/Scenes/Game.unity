@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 296050120}
   - component: {fileID: 296050119}
   - component: {fileID: 296050118}
+  - component: {fileID: 296050121}
   m_Layer: 0
   m_Name: ScriptReference
   m_TagString: Untagged
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c64474fef3f4bd39e47dc34c745a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Enemy: {fileID: 5664491459081288752, guid: fd4751cd6ba1e487a8be45342a4b0510, type: 3}
+  m_Enemy: {fileID: 4210182490688043509, guid: 935c50bae255342f9b7f8e03d4217e7d, type: 3}
   m_EnemyHolder: {fileID: 80121466}
   m_EnemySkin:
   - {fileID: 21300000, guid: 8e4725d943ec74e7c9e801202bdba28b, type: 3}
@@ -218,6 +219,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &296050121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296050117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b880f9258464e5496e456ac27cfdab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Bullets: {fileID: 1620554488294060552, guid: f81456c6afbd145fa94ab017334b99e0,
+    type: 3}
+  m_BulletHolder: {fileID: 315110935}
+--- !u!1 &315110934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 315110935}
+  m_Layer: 0
+  m_Name: BulletHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &315110935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315110934}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -406,7 +452,7 @@ GameObject:
   - component: {fileID: 1768920615}
   - component: {fileID: 1768920614}
   - component: {fileID: 1768920618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -33,7 +33,7 @@ namespace praveen.One
                 GameObject enemyShip = m_EnemyPool.Spawn();
                 SetEnemyData(enemyShip);
                 enemyShip.transform.position = GetSpawnPoint();
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1.3f);
             }
             
         }

@@ -60,6 +60,7 @@ namespace praveen.One
                 coin.GetComponent<Coin>().Init();
                 EnemyController.RecycleEnemy(gameObject);
                 BulletController.RecycleBullet(collision.gameObject);
+                GameManager.Instance.AddScore(10);
             }
 
         }

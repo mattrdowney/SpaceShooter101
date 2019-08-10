@@ -16,9 +16,12 @@ namespace praveen.One
         private Transform m_PlayerTransform;
         
         private int m_PlayerLife;
+        private float m_TimeSinceLastHit;
+        private bool m_CanActivateShield;
 
         void Start()
         {
+            m_CanActivateShield = false;
             m_IsReloaded = true;
             m_PlayerTransform = this.transform;
             m_PlayerLife = 3;
@@ -59,7 +62,11 @@ namespace praveen.One
         {
             if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy")
             {
-                Debug.Log("Im Hit" + collision.gameObject.tag);
+
+                m_TimeSinceLastHit = 0;
+                m_CanActivateShield = false;
+                GameManager.Instance.OnPlayerHit();
+
                 if (collision.gameObject.tag == "EnemyBullet"){
                     BulletController.RecycleBullet(collision.gameObject);
                 }
@@ -79,6 +86,14 @@ namespace praveen.One
             {
                 ShootCoins();
             }
+
+            m_TimeSinceLastHit += Time.deltaTime;
+            if (GameManager.Instance.GetShieldActTime() < m_TimeSinceLastHit)
+            {
+                HudController.Instance.SetShieldActiveProgress(m_TimeSinceLastHit);
+                m_CanActivateShield = true;
+            }
+
         }
 
         public override void Shoot()

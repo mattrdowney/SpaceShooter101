@@ -21,15 +21,32 @@ namespace praveen.One
         #endregion
 
         #region PrivateFields
+        int m_PlayerHp;
         int m_Level;
         int m_Coins;
+        float m_ShieldTime;
+        float m_ShieldActTime;
+        int m_Score;
         #endregion
 
         private void Awake()
         {
             m_Instance = this;
+            m_PlayerHp = 3;
         }
 
+
+        public void AddScore(int score)
+        {
+            m_Score += score;
+            HudController.Instance.SetScore(m_Score);
+        }
+
+        public void OnPlayerHit()
+        {
+            m_PlayerHp -= 1;
+            HudController.Instance.SetPlayerHelth(m_PlayerHp);
+        }
 
         /// <summary>
         /// Returns Level
@@ -76,15 +93,19 @@ namespace praveen.One
             return Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)).y;
         }
 
+        public float GetShieldTime()
+        {
+            return m_ShieldTime;
+        }
+
+        public float GetShieldActTime()
+        {
+            return m_ShieldActTime;
+        }
+
         public void AddCoin()
         {
             m_Coins++;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }

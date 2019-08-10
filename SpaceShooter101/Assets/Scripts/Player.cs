@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace praveen.One
 {
@@ -9,6 +10,8 @@ namespace praveen.One
         [SerializeField] Transform m_Gun;
         #endregion
 
+        bool m_IsReloaded;
+
 
         private Transform m_PlayerTransform;
         
@@ -16,6 +19,7 @@ namespace praveen.One
 
         void Start()
         {
+            m_IsReloaded = true;
             m_PlayerTransform = this.transform;
             m_PlayerLife = 3;
         }
@@ -66,7 +70,7 @@ namespace praveen.One
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButton(0))
             {
                 Shoot();
             }
@@ -79,6 +83,14 @@ namespace praveen.One
 
         public override void Shoot()
         {
+            if (!m_IsReloaded)
+                return;
+
+            m_IsReloaded = false;
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            m_Gun.transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
+
             GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.player);
             bullet.transform.SetParent(m_Gun);
             bullet.transform.localPosition = Vector3.zero;
@@ -86,6 +98,8 @@ namespace praveen.One
             bullet.layer = 10;
             bullet.tag = "PlayerBullet";
             bullet.SetActive(true);
+
+            StartCoroutine(ReloadGun());
         }
 
 
@@ -99,6 +113,13 @@ namespace praveen.One
             bullet.tag = "CoinBullet";
             bullet.SetActive(true);
         }
+
+        IEnumerator ReloadGun()
+        {
+            yield return new WaitForSeconds(2f);
+            m_IsReloaded = true;
+        }
+
     }
 
 }

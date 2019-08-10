@@ -9,13 +9,6 @@ namespace praveen.One
     {
         int m_Speed = 10;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
         void Update()
         {
             transform.Translate(Vector3.up * Time.deltaTime * m_Speed);
@@ -30,6 +23,12 @@ namespace praveen.One
             {
                 BulletController.RecycleBullet(this.gameObject);
             }
+        }
+
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            
         }
     }
 }

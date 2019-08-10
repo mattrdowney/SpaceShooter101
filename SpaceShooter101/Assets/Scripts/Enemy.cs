@@ -38,7 +38,7 @@ namespace praveen.One
         {
             for (int i = 0; i < 30; i++)
             {
-                GameObject bullet = BulletController.GetBullet();
+                GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.enemy);
                 bullet.transform.SetParent(m_Gun);
                 bullet.transform.localPosition = Vector3.zero;
                 bullet.transform.localRotation = Quaternion.identity;
@@ -53,6 +53,11 @@ namespace praveen.One
         {
             if (collision.gameObject.tag == "PlayerBullet")
             {
+                GameObject coin = CoinController.GetCoin();
+                coin.SetActive(true);
+                coin.transform.parent = null;
+                coin.transform.position = this.transform.position;
+                coin.GetComponent<Coin>().Init();
                 EnemyController.RecycleEnemy(gameObject);
                 BulletController.RecycleBullet(collision.gameObject);
             }

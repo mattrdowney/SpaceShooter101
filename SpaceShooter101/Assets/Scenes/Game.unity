@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 296050119}
   - component: {fileID: 296050118}
   - component: {fileID: 296050121}
+  - component: {fileID: 296050122}
   m_Layer: 0
   m_Name: ScriptReference
   m_TagString: Untagged
@@ -265,6 +266,24 @@ MonoBehaviour:
   m_Bullets: {fileID: 1620554488294060552, guid: f81456c6afbd145fa94ab017334b99e0,
     type: 3}
   m_BulletHolder: {fileID: 315110935}
+  m_BulletSkin:
+  - {fileID: 21300000, guid: 5defa0d7dfa054e59b7a5af8bb178809, type: 3}
+  - {fileID: 21300000, guid: 058c29d96815b4cf7a7706a61250517e, type: 3}
+  - {fileID: 21300000, guid: 0774b1d97dbf24238a4cd8b01318b8a9, type: 3}
+--- !u!114 &296050122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296050117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4126c3f5e78647709161003fd4f7984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Coin: {fileID: 3188245473193419913, guid: 2ac82c97fa80e4e89bcb373c4e075904, type: 3}
+  m_CoinHolder: {fileID: 1639640526}
 --- !u!1 &315110934
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +487,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1639640525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1639640526}
+  m_Layer: 0
+  m_Name: CoinHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1639640526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639640525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.29453748, y: 7.2090406, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1768920613
 GameObject:

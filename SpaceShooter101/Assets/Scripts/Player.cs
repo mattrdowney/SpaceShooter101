@@ -70,16 +70,33 @@ namespace praveen.One
             {
                 Shoot();
             }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                ShootCoins();
+            }
         }
 
         public override void Shoot()
         {
-            GameObject bullet = BulletController.GetBullet();
+            GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.player);
             bullet.transform.SetParent(m_Gun);
             bullet.transform.localPosition = Vector3.zero;
             bullet.transform.localRotation = Quaternion.identity;
             bullet.layer = 10;
             bullet.tag = "PlayerBullet";
+            bullet.SetActive(true);
+        }
+
+
+        private void ShootCoins()
+        {
+            GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.coin);
+            bullet.transform.SetParent(m_Gun);
+            bullet.transform.localPosition = Vector3.zero;
+            bullet.transform.localRotation = Quaternion.identity;
+            bullet.layer = 10;
+            bullet.tag = "CoinBullet";
             bullet.SetActive(true);
         }
     }

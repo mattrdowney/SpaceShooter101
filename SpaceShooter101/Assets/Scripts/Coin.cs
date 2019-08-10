@@ -8,6 +8,7 @@ namespace praveen.One
 
         public void Init()
         {
+            GameManager.Instance.AddCoin();
             Invoke("Recycle", m_LifeTime);
         }
 

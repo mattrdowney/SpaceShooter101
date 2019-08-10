@@ -22,6 +22,7 @@ namespace praveen.One
 
         #region PrivateFields
         int m_Level;
+        int m_Coins;
         #endregion
 
         private void Awake()
@@ -75,10 +76,9 @@ namespace praveen.One
             return Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)).y;
         }
 
-        // Start is called before the first frame update
-        void Start()
+        public void AddCoin()
         {
-
+            m_Coins++;
         }
 
         // Update is called once per frame

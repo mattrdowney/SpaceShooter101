@@ -5,10 +5,12 @@ namespace praveen.One
 {
     public class Enemy : SpaceShip
     {
-
+        #region SerializedFields
         [SerializeField] float m_Speed;
-
         [SerializeField] Transform m_Gun;
+        #endregion
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -41,9 +43,20 @@ namespace praveen.One
                 bullet.transform.localPosition = Vector3.zero;
                 bullet.transform.localRotation = Quaternion.identity;
                 bullet.layer = 11;
+                bullet.tag = "EnemyBullet";
                 bullet.SetActive(true);
                 yield return new WaitForSeconds(1);
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag == "PlayerBullet")
+            {
+                EnemyController.RecycleEnemy(gameObject);
+                BulletController.RecycleBullet(collision.gameObject);
+            }
+
         }
 
 

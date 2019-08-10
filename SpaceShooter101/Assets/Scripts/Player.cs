@@ -4,12 +4,20 @@ namespace praveen.One
 {
     public class Player : SpaceShip
     {
+        #region SerializedFields
         [SerializeField] float m_Speed = 100;
+        [SerializeField] Transform m_Gun;
+        #endregion
+
+
         private Transform m_PlayerTransform;
+        
+        private int m_PlayerLife;
 
         void Start()
         {
             m_PlayerTransform = this.transform;
+            m_PlayerLife = 3;
         }
 
         // Update is called once per frame
@@ -43,9 +51,36 @@ namespace praveen.One
             m_PlayerTransform.position = Camera.main.ViewportToWorldPoint(camViewPoint);
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy")
+            {
+                Debug.Log("Im Hit" + collision.gameObject.tag);
+                if (collision.gameObject.tag == "EnemyBullet"){
+                    BulletController.RecycleBullet(collision.gameObject);
+                }
+                
+            }
+            
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Shoot();
+            }
+        }
+
         public override void Shoot()
         {
-            base.Shoot();
+            GameObject bullet = BulletController.GetBullet();
+            bullet.transform.SetParent(m_Gun);
+            bullet.transform.localPosition = Vector3.zero;
+            bullet.transform.localRotation = Quaternion.identity;
+            bullet.layer = 10;
+            bullet.tag = "PlayerBullet";
+            bullet.SetActive(true);
         }
     }
 

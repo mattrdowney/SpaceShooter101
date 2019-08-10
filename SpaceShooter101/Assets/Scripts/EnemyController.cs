@@ -7,10 +7,12 @@ namespace praveen.One
 {
     public class EnemyController : MonoBehaviour
     {
-
+        #region SerializedFields
         [SerializeField] GameObject m_Enemy;
         [SerializeField] Transform m_EnemyHolder;
         [SerializeField] Sprite[] m_EnemySkin;
+        #endregion
+
 
         #region StaticFields
         static ObjectPool m_EnemyPool;

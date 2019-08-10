@@ -9,10 +9,13 @@ namespace praveen.One
         static ObjectPool m_LaserBullets;
         #endregion
 
+        #region SerializedFields
         [SerializeField] GameObject m_Bullets;
         [SerializeField] Transform m_BulletHolder;
+        #endregion
 
-        void Start()
+
+        void Awake()
         {
             m_LaserBullets = new ObjectPool(m_Bullets, m_BulletHolder, 100, false, null, null);
         }

@@ -32,6 +32,7 @@ namespace praveen.One
         int m_EnemiesKilled;
         int m_HighScore;
         bool m_IsNewRecord;
+        ShooterAmor m_ShooterAmor;
         #endregion
 
         private void Awake()
@@ -182,6 +183,16 @@ namespace praveen.One
             PlayerPrefs.SetInt(m_HighScoreKey, m_HighScore);
             PlayerPrefs.SetInt(m_CoinsKey, m_Coins);
             PlayerPrefs.Save();
+        }
+
+        public ShooterAmor GetAmorData()
+        {
+            return m_ShooterAmor;
+        }
+
+        public int GetCoinCount()
+        {
+            return m_Coins;
         }
     }
 }

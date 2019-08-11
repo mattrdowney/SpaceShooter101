@@ -552,6 +552,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f16bd56129ac4c80a2f102329934ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GunPowerLevel: {fileID: 358255362}
+  m_GunPowerCost: {fileID: 2129660171}
+  m_RocketLevel: {fileID: 990734527}
+  m_RocketCost: {fileID: 1000757382}
+  m_Coins: {fileID: 1162807609}
 --- !u!1 &358255360
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +569,7 @@ GameObject:
   - component: {fileID: 358255363}
   - component: {fileID: 358255362}
   m_Layer: 5
-  m_Name: InfoText
+  m_Name: LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,8 +591,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: -70}
-  m_SizeDelta: {x: 750, y: 200}
+  m_AnchoredPosition: {x: -16, y: -70}
+  m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358255362
 MonoBehaviour:
@@ -616,13 +621,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 5
     m_MaxSize: 66
-    m_Alignment: 1
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Upgrate to Lvel 10 for:'
+  m_Text: 'Upgrade to Lvel 10 for:'
 --- !u!222 &358255363
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -891,7 +896,7 @@ GameObject:
   - component: {fileID: 990734528}
   - component: {fileID: 990734527}
   m_Layer: 5
-  m_Name: InfoText
+  m_Name: LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -913,7 +918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: -70}
+  m_AnchoredPosition: {x: -16, y: -70}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990734527
@@ -943,13 +948,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 6
     m_MaxSize: 60
-    m_Alignment: 1
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Upgrate to Lvel 10 for:'
+  m_Text: 'Upgrade to Lvel 10 for:'
 --- !u!222 &990734528
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -970,7 +975,7 @@ GameObject:
   - component: {fileID: 1000757383}
   - component: {fileID: 1000757382}
   m_Layer: 5
-  m_Name: AmountText
+  m_Name: CostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1538,9 +1543,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1315411184}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 5
   m_WholeNumbers: 1
-  m_Value: 10
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1703,9 +1708,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1529094498}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 5
   m_WholeNumbers: 1
-  m_Value: 10
+  m_Value: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2599,7 +2604,7 @@ GameObject:
   - component: {fileID: 2129660172}
   - component: {fileID: 2129660171}
   m_Layer: 5
-  m_Name: AmountText
+  m_Name: CostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

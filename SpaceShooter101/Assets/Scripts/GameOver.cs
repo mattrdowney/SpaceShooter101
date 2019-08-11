@@ -51,6 +51,11 @@ namespace praveen.One
         {
             SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
+
+        public void OnPressHomeBtn()
+        {
+            SceneManager.LoadScene("Start", LoadSceneMode.Single);
+        }
     }
 }
 

@@ -61,7 +61,7 @@ namespace praveen.One
 
             if (string.IsNullOrEmpty(amorData))
             {
-                ShooterAmor amor = new ShooterAmor(1, 1);
+                ShooterAmor amor = new ShooterAmor(1, 1, 1);
                 m_ShooterAmor = amor;
             }
             else
@@ -233,18 +233,30 @@ namespace praveen.One
             
         }
 
-        public void UpgradeRocket(System.Action<bool> callback)
+        public void UpgradeMagazine(System.Action<bool> callback)
         {
-            int nextRocketLvl = Shop.GetNextRocketLevel(m_ShooterAmor.GunLevel);
+            int nextMagLevel = Shop.GetNextMissileMagLvl(m_ShooterAmor.MissileMagazineLvl);
 
-            if (nextRocketLvl == -1)
+            if (nextMagLevel == -1)
                 return;
 
-            int upgradeCost = Shop.GetRocketUpgradeCost(nextRocketLvl);
+            int upgradeCost = Shop.GetMissileMagUpgrdCost(nextMagLevel);
             if (m_Coins >= upgradeCost)
             {
                 m_Coins -= upgradeCost;
-                m_ShooterAmor.RocketLevel = nextRocketLvl;
+                m_ShooterAmor.MissileMagazineLvl = nextMagLevel;
+                SaveData();
+                callback.Invoke(true);
+            }
+        }
+
+        public void BuyMissile(System.Action<bool> callback)
+        {
+            int mcost = Shop.GetMissileCost();
+            if (m_Coins >= mcost)
+            {
+                m_Coins -= mcost;
+                m_ShooterAmor.MissileCount += 1;
                 SaveData();
                 callback.Invoke(true);
             }

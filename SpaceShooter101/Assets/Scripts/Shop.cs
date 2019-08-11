@@ -200,7 +200,7 @@ namespace praveen.One
             {
                 return -1;
             }
-            return lvl++;
+            return lvl + 1;
         }
 
         public static int GetNextRocketLevel(int lvl)
@@ -209,7 +209,7 @@ namespace praveen.One
             {
                 return -1;
             }
-            return lvl++;
+            return lvl + 1;
         }
     }
 }

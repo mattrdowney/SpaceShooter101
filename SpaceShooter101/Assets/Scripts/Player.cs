@@ -10,7 +10,8 @@ namespace praveen.One
         [SerializeField] Transform m_Gun;
         #endregion
 
-        bool m_IsReloaded;
+        bool m_IsGunReloaded;
+        bool m_IsMissileReloaded;
 
 
         private Transform m_PlayerTransform;
@@ -21,7 +22,8 @@ namespace praveen.One
         void Start()
         {
             m_CanActivateShield = false;
-            m_IsReloaded = true;
+            m_IsGunReloaded = true;
+            m_IsMissileReloaded = true;
             m_PlayerTransform = this.transform;
 
             GameManager.Instance.NewGame();
@@ -82,9 +84,9 @@ namespace praveen.One
                 Shoot();
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetMouseButton(1))
             {
-                ShootCoins();
+                LaunchMissile();
             }
 
             m_TimeSinceLastHit += Time.deltaTime;
@@ -98,10 +100,10 @@ namespace praveen.One
 
         public override void Shoot()
         {
-            if (!m_IsReloaded)
+            if (!m_IsGunReloaded)
                 return;
 
-            m_IsReloaded = false;
+            m_IsGunReloaded = false;
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             m_Gun.transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
@@ -117,22 +119,38 @@ namespace praveen.One
             StartCoroutine(ReloadGun());
         }
 
-
-        private void ShootCoins()
+        private void LaunchMissile()
         {
-            GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.coin);
-            bullet.transform.SetParent(m_Gun);
-            bullet.transform.localPosition = Vector3.zero;
-            bullet.transform.localRotation = Quaternion.identity;
-            bullet.layer = 10;
-            bullet.tag = "CoinBullet";
-            bullet.SetActive(true);
+            if (!m_IsMissileReloaded)
+                return;
+
+            m_IsMissileReloaded = false;
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width/2, Screen.height/2));
+            m_Gun.transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
+
+            GameObject missile = BulletController.Instance.GetMissile();
+
+            missile.transform.SetParent(m_Gun);
+            missile.transform.localPosition = Vector3.zero;
+            missile.transform.localRotation = Quaternion.identity;
+            missile.layer = 10;
+            missile.SetActive(true);
+
+            StartCoroutine(ReloadRocket());
+        }
+
+
+        IEnumerator ReloadRocket()
+        {
+            yield return new WaitForSeconds(1f);
+            m_IsMissileReloaded = true;
         }
 
         IEnumerator ReloadGun()
         {
             yield return new WaitForSeconds(2f);
-            m_IsReloaded = true;
+            m_IsGunReloaded = true;
         }
 
     }

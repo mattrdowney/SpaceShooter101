@@ -71,7 +71,6 @@ namespace praveen.One
 
         }
 
-
         public void AddScore(int score)
         {
             m_Score += score;

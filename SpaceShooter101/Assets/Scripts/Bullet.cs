@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace praveen.One
 {
     public class Bullet : MonoBehaviour
     {
-        int m_Speed = 10;
+        public int m_Speed = 10;
 
-        void Update()
+        public virtual void Update()
         {
             transform.Translate(Vector3.up * Time.deltaTime * m_Speed);
 
             Recycle();
         }
-
 
         private void Recycle()
         {
@@ -25,11 +22,6 @@ namespace praveen.One
             }
         }
 
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            
-        }
     }
 }
 

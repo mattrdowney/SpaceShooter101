@@ -14,7 +14,7 @@ namespace praveen.One
         // Start is called before the first frame update
         void Start()
         {
-            
+
         }
 
         void FixedUpdate()
@@ -25,7 +25,6 @@ namespace praveen.One
         void Update()
         {
             Recycle();
-            
         }
 
         public override void Shoot()
@@ -53,15 +52,24 @@ namespace praveen.One
         {
             if (collision.gameObject.tag == "PlayerBullet")
             {
-                CoinController.SpawnCoin(this.transform.position);
-                EnemyController.RecycleEnemy(gameObject);
                 BulletController.RecycleBullet(collision.gameObject);
-                GameManager.Instance.AddScore(10);
-                GameManager.Instance.UpdateEnemiesKilled();
+                DestroyShip();
             }
 
         }
 
+        public override void MissileDamage()
+        {
+            DestroyShip();
+        }
+
+        void DestroyShip()
+        {
+            CoinController.SpawnCoin(this.transform.position);
+            EnemyController.RecycleEnemy(gameObject);
+            GameManager.Instance.AddScore(10);
+            GameManager.Instance.UpdateEnemiesKilled();
+        }
 
         private void Recycle()
         {

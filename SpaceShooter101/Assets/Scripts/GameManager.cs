@@ -161,6 +161,11 @@ namespace praveen.One
 
         }
 
+        public void LoadShopScene()
+        {
+            SceneManager.LoadScene("Shop", LoadSceneMode.Single);
+        }
+
         public void NewGame()
         {
             m_PlayerHp = 3;

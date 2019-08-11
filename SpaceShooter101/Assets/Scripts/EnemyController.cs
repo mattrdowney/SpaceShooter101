@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using praveen.One.util;
 using UnityEngine;
 
@@ -45,7 +44,7 @@ namespace praveen.One
             number ++;
             if(number > 29)
             {
-                // Shop Menu
+                GameManager.Instance.LoadShopScene();
             }
         }
 

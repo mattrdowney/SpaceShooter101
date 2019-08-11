@@ -193,6 +193,24 @@ namespace praveen.One
         {
             return m_RocketPowerDict[lvl];
         }
+
+        public static int GetNextGunLevel(int lvl)
+        {
+            if (lvl == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
+            {
+                return -1;
+            }
+            return lvl++;
+        }
+
+        public static int GetNextRocketLevel(int lvl)
+        {
+            if (lvl == m_RocketPowerDict.OrderByDescending(x => x.Value).First().Key)
+            {
+                return -1;
+            }
+            return lvl++;
+        }
     }
 }
 

@@ -217,11 +217,17 @@ namespace praveen.One
 
         public void UpgradeGun(System.Action<bool> callback)
         {
-            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.GunLevel+1) ;
+
+            int nextGunLvl = Shop.GetNextGunLevel(m_ShooterAmor.GunLevel);
+
+            if (nextGunLvl == -1)
+                return;
+
+            int upgradeCost = Shop.GetGunUpgradeCost(nextGunLvl) ;
             if (m_Coins >= upgradeCost)
             {
                 m_Coins -= upgradeCost;
-                m_ShooterAmor.GunLevel++;
+                m_ShooterAmor.GunLevel = nextGunLvl;
                 SaveData();
                 callback.Invoke(true);
             }
@@ -230,7 +236,12 @@ namespace praveen.One
 
         public void UpgradeRocket(System.Action<bool> callback)
         {
-            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.RocketLevel+1);
+            int nextRocketLvl = Shop.GetNextGunLevel(m_ShooterAmor.GunLevel);
+
+            if (nextRocketLvl == -1)
+                return;
+
+            int upgradeCost = Shop.GetGunUpgradeCost(nextRocketLvl);
             if (m_Coins >= upgradeCost)
             {
                 m_Coins -= upgradeCost;

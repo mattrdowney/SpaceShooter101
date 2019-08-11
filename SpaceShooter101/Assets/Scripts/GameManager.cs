@@ -27,6 +27,7 @@ namespace praveen.One
         float m_ShieldTime;
         float m_ShieldActTime;
         int m_Score;
+        int m_EnemiesKilled;
         #endregion
 
         private void Awake()
@@ -48,6 +49,12 @@ namespace praveen.One
         {
             m_Score += score;
             HudController.Instance.SetScore(m_Score);
+        }
+
+        public void UpdateEnemiesKilled()
+        {
+            m_EnemiesKilled += 1;
+            HudController.Instance.EnemiesKilled(m_EnemiesKilled);
         }
 
         public void OnPlayerHit()
@@ -114,6 +121,7 @@ namespace praveen.One
         public void AddCoin()
         {
             m_Coins++;
+            HudController.Instance.SetCoins(m_Coins);
         }
 
         public int GetHighScore()

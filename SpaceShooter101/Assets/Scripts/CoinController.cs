@@ -32,6 +32,19 @@ namespace praveen.One
         {
             m_CoinPool.Recycle(coin);
         }
+
+        /// <summary>
+        /// Spawn coin after ship destroied
+        /// </summary>
+        /// <param name="position"> Ship Position </param>
+        public static void SpawnCoin(Vector3 position)
+        {
+            GameObject coin = CoinController.GetCoin();
+            coin.SetActive(true);
+            coin.transform.parent = null;
+            coin.transform.position = position;
+            coin.GetComponent<Coin>().Init();
+        }
     }
 }
 

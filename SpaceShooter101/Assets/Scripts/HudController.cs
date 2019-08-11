@@ -24,7 +24,10 @@ namespace praveen.One
         #region SerializedFields
         [SerializeField] Slider m_ShieldSlider;
         [SerializeField] Text m_Score;
+        [SerializeField] Text m_Coins;
+        [SerializeField] Text m_RocketsLeft;
         [SerializeField] Image[] m_HelthIcons;
+        [SerializeField] Text m_EnemiesKilled;
         #endregion
 
 
@@ -55,11 +58,37 @@ namespace praveen.One
             m_ShieldSlider.value = (value / 10);
         }
 
+        /// <summary>
+        /// Sets the score
+        /// </summary>
+        /// <param name="score"></param>
         public void SetScore(int score)
         {
             m_Score.text = score.ToString();
         }
 
+        /// <summary>
+        /// Sets the enemy killed count
+        /// </summary>
+        /// <param name="count"></param>
+        public void EnemiesKilled(int count)
+        {
+            m_EnemiesKilled.text = count.ToString();
+        }
+
+        /// <summary>
+        /// Sets the coins count (Current Session)
+        /// </summary>
+        /// <param name="count"></param>
+        public void SetCoins(int count)
+        {
+            m_Coins.text = count.ToString();
+        }
+
+        public void SetRocketLeft(int count)
+        {
+            m_RocketsLeft.text = count.ToString();
+        }
     }
 }
 

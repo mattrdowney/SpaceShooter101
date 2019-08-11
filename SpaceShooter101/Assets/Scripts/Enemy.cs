@@ -53,14 +53,11 @@ namespace praveen.One
         {
             if (collision.gameObject.tag == "PlayerBullet")
             {
-                GameObject coin = CoinController.GetCoin();
-                coin.SetActive(true);
-                coin.transform.parent = null;
-                coin.transform.position = this.transform.position;
-                coin.GetComponent<Coin>().Init();
+                CoinController.SpawnCoin(this.transform.position);
                 EnemyController.RecycleEnemy(gameObject);
                 BulletController.RecycleBullet(collision.gameObject);
                 GameManager.Instance.AddScore(10);
+                GameManager.Instance.UpdateEnemiesKilled();
             }
 
         }

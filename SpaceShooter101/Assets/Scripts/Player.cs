@@ -52,7 +52,7 @@ namespace praveen.One
 
             //Apply limit
             camViewPoint.x = Mathf.Clamp(camViewPoint.x, 0f, 1f);
-            camViewPoint.y = Mathf.Clamp(camViewPoint.y, 0f, 0.24f);
+            camViewPoint.y = Mathf.Clamp(camViewPoint.y, 0.1f, 0.25f);
 
             //Convert to world point then apply result to the target object
             m_PlayerTransform.position = Camera.main.ViewportToWorldPoint(camViewPoint);

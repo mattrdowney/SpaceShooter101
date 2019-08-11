@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace praveen.One
 {
@@ -16,8 +17,9 @@ namespace praveen.One
         #endregion
 
 
-        #region SerializedFields
-
+        #region MetaData
+        string m_CoinsKey       = "SHOOTER.COINS";
+        string m_HighScoreKey   = "SHOOTER.HIGHSCORE";
         #endregion
 
         #region PrivateFields
@@ -28,6 +30,8 @@ namespace praveen.One
         float m_ShieldActTime;
         int m_Score;
         int m_EnemiesKilled;
+        int m_HighScore;
+        bool m_IsNewRecord;
         #endregion
 
         private void Awake()
@@ -42,6 +46,13 @@ namespace praveen.One
             }
             DontDestroyOnLoad(this.gameObject);
             m_PlayerHp = 3;
+            GetSavedData();
+        }
+
+        void GetSavedData()
+        {
+            m_HighScore = PlayerPrefs.GetInt(m_HighScoreKey, 0);
+            m_Coins     = PlayerPrefs.GetInt(m_CoinsKey, 0);
         }
 
 
@@ -61,6 +72,11 @@ namespace praveen.One
         {
             m_PlayerHp -= 1;
             HudController.Instance.SetPlayerHelth(m_PlayerHp);
+
+            if(m_PlayerHp < 1)
+            {
+                GameOver();
+            }
         }
 
         /// <summary>
@@ -126,7 +142,41 @@ namespace praveen.One
 
         public int GetHighScore()
         {
-            return 1988;
+            return m_HighScore;
+        }
+
+        private void GameOver()
+        {
+           m_IsNewRecord = false;
+
+           if(m_Score > m_HighScore)
+           {
+                m_IsNewRecord = true;
+                m_HighScore = m_Score;
+           }
+
+            SaveData();
+
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+
+        }
+
+        public void NewGame()
+        {
+            m_PlayerHp = 3;
+            m_Score = 0;
+        }
+
+        public GameOverUI GetGameOverUI()
+        {
+            return new GameOverUI(m_Score, m_HighScore, m_Coins, m_IsNewRecord);
+        }
+
+        void SaveData()
+        {
+            PlayerPrefs.SetInt(m_HighScoreKey, m_HighScore);
+            PlayerPrefs.SetInt(m_CoinsKey, m_Coins);
+            PlayerPrefs.Save();
         }
     }
 }

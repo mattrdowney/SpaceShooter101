@@ -14,8 +14,7 @@ namespace praveen.One
 
 
         private Transform m_PlayerTransform;
-        
-        private int m_PlayerLife;
+
         private float m_TimeSinceLastHit;
         private bool m_CanActivateShield;
 
@@ -24,7 +23,8 @@ namespace praveen.One
             m_CanActivateShield = false;
             m_IsReloaded = true;
             m_PlayerTransform = this.transform;
-            m_PlayerLife = 3;
+
+            GameManager.Instance.NewGame();
         }
 
         // Update is called once per frame

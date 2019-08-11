@@ -84,10 +84,12 @@ namespace praveen.One
                 if (nextGunPowerCost <= GameManager.Instance.GetCoinCount())
                 {
                     m_GunPowerCost.color = Color.green;
+                    m_GunUpgradeBtn.interactable = true;
                 }
                 else
                 {
                     m_GunPowerCost.color = Color.red;
+                    m_GunUpgradeBtn.interactable = false;
                 }
                 
             }
@@ -99,10 +101,12 @@ namespace praveen.One
                 // set the color of the text
                 if (nextRocketCost <= GameManager.Instance.GetCoinCount())
                 {
+                    m_RocketUpgradeBtn.interactable = true;
                     m_RocketCost.color = Color.green;
                 }
                 else
                 {
+                    m_RocketUpgradeBtn.interactable = false;
                     m_RocketCost.color = Color.red;
                 }
             }
@@ -159,16 +163,25 @@ namespace praveen.One
 
         public void OnClickUpgradeGun()
         {
-            Debug.Log("Upgrade Gun Btn");
-            GameManager.Instance.UpgradeGun();
-            Init();
+            GameManager.Instance.UpgradeGun((bool sucess)=>
+            {
+                if (sucess)
+                {
+                    Init();
+                }
+            });
+            
         }
 
         public void OnClickUpgradeRocket()
         {
-            Debug.Log("Upgrade Rocket Btn");
-            GameManager.Instance.UpgradeRocket();
-            Init();
+            GameManager.Instance.UpgradeRocket((bool sucess) =>
+            {
+                if (sucess)
+                {
+                    Init();
+                }
+            });
         }
 
         public static int GetGunUpgradeCost(int lvl)

@@ -212,26 +212,28 @@ namespace praveen.One
             return m_Coins;
         }
 
-        public void UpgradeGun()
+        public void UpgradeGun(System.Action<bool> callback)
         {
-            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.GunLevel);
+            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.GunLevel+1) ;
             if (m_Coins >= upgradeCost)
             {
                 m_Coins -= upgradeCost;
                 m_ShooterAmor.GunLevel++;
                 SaveData();
+                callback.Invoke(true);
             }
             
         }
 
-        public void UpgradeRocket()
+        public void UpgradeRocket(System.Action<bool> callback)
         {
-            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.RocketLevel);
+            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.RocketLevel+1);
             if (m_Coins >= upgradeCost)
             {
                 m_Coins -= upgradeCost;
                 m_ShooterAmor.RocketLevel++;
                 SaveData();
+                callback.Invoke(true);
             }
         }
     }

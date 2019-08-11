@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace praveen.One
 {
+    [System.Serializable]
     public struct ShooterAmor
     {
         public int GunLevel;

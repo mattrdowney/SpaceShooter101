@@ -20,6 +20,7 @@ namespace praveen.One
         #region MetaData
         string m_CoinsKey       = "SHOOTER.COINS";
         string m_HighScoreKey   = "SHOOTER.HIGHSCORE";
+        string m_AmorKey        = "SHOOTER.AMOR";
         #endregion
 
         #region PrivateFields
@@ -54,6 +55,19 @@ namespace praveen.One
         {
             m_HighScore = PlayerPrefs.GetInt(m_HighScoreKey, 0);
             m_Coins     = PlayerPrefs.GetInt(m_CoinsKey, 0);
+
+            string amorData = PlayerPrefs.GetString(m_AmorKey, null);
+
+            if (string.IsNullOrEmpty(amorData))
+            {
+                ShooterAmor amor = new ShooterAmor(1, 1);
+                m_ShooterAmor = amor;
+            }
+            else
+            {
+                m_ShooterAmor = JsonUtility.FromJson<ShooterAmor>(amorData);
+            }
+
         }
 
 
@@ -180,6 +194,8 @@ namespace praveen.One
 
         void SaveData()
         {
+            string amorData = JsonUtility.ToJson(m_ShooterAmor);
+            PlayerPrefs.SetString(m_AmorKey, amorData);
             PlayerPrefs.SetInt(m_HighScoreKey, m_HighScore);
             PlayerPrefs.SetInt(m_CoinsKey, m_Coins);
             PlayerPrefs.Save();

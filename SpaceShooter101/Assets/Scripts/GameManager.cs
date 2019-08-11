@@ -31,7 +31,15 @@ namespace praveen.One
 
         private void Awake()
         {
-            m_Instance = this;
+            if (m_Instance != null && m_Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                m_Instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
             m_PlayerHp = 3;
         }
 
@@ -106,6 +114,11 @@ namespace praveen.One
         public void AddCoin()
         {
             m_Coins++;
+        }
+
+        public int GetHighScore()
+        {
+            return 1988;
         }
     }
 }

@@ -65,7 +65,7 @@ namespace praveen.One
 
                 m_TimeSinceLastHit = 0;
                 m_CanActivateShield = false;
-                GameManager.Instance.OnPlayerHit();
+                //GameManager.Instance.OnPlayerHit();
 
                 if (collision.gameObject.tag == "EnemyBullet"){
                     BulletController.RecycleBullet(collision.gameObject);

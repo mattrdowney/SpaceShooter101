@@ -22,8 +22,8 @@ namespace praveen.One
 
     public class Shop : MonoBehaviour
     {
-        Dictionary<int, int> m_GunPowerDict     = new Dictionary<int, int>();
-        Dictionary<int, int> m_RocketPowerDict  = new Dictionary<int, int>();
+        static Dictionary<int, int> m_GunPowerDict     = new Dictionary<int, int>();
+        static Dictionary<int, int> m_RocketPowerDict  = new Dictionary<int, int>();
 
         ShooterAmor m_ShooterAmor;
 
@@ -34,6 +34,10 @@ namespace praveen.One
         [SerializeField] Text m_RocketLevel;
         [SerializeField] Text m_RocketCost;
         [SerializeField] Text m_Coins;
+        [SerializeField] Slider m_GunPowerSlider;
+        [SerializeField] Slider m_RocketSlider;
+        [SerializeField] Button m_GunUpgradeBtn;
+        [SerializeField] Button m_RocketUpgradeBtn;
         #endregion
 
         // Start is called before the first frame update
@@ -61,6 +65,10 @@ namespace praveen.One
         void Init()
         {
             m_ShooterAmor = GameManager.Instance.GetAmorData();
+
+            m_GunPowerSlider.value  = m_ShooterAmor.GunLevel;
+            m_RocketSlider.value    = m_ShooterAmor.RocketLevel;
+            m_Coins.text            = GameManager.Instance.GetCoinCount().ToString();
 
             m_GunPowerLevel.text    = GetNextGunData(m_ShooterAmor.GunLevel);
             m_RocketLevel.text      = GetNextGunData(m_ShooterAmor.RocketLevel);
@@ -105,9 +113,10 @@ namespace praveen.One
         {
             if (curLevel == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
             {
+                m_GunUpgradeBtn.interactable = false;
                 return "Already Upgraded to MAX level";
             }
-            return "Upgrade to Lvel"+ (curLevel +1) +"for:";
+            return "Upgrade to Lvel "+ (curLevel +1) +" for:";
         }
 
         int GetNextGunCost(int curLevel)
@@ -123,9 +132,10 @@ namespace praveen.One
         {
             if (curLevel == m_RocketPowerDict.OrderByDescending(x => x.Value).First().Key)
             {
+                m_RocketUpgradeBtn.interactable = false;
                 return "Already Upgraded to MAX level";
             }
-            return "Upgrade to Lvel" + (curLevel + 1) + "for:";
+            return "Upgrade to Lvel " + (curLevel + 1) + " for:";
         }
 
         int GetNextRocketCost(int curLevel)
@@ -135,12 +145,6 @@ namespace praveen.One
                 return -1;
             }
             return m_RocketPowerDict[curLevel + 1];
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void OnClickHomeButton()
@@ -155,12 +159,26 @@ namespace praveen.One
 
         public void OnClickUpgradeGun()
         {
+            Debug.Log("Upgrade Gun Btn");
+            GameManager.Instance.UpgradeGun();
             Init();
         }
 
         public void OnClickUpgradeRocket()
         {
+            Debug.Log("Upgrade Rocket Btn");
+            GameManager.Instance.UpgradeRocket();
             Init();
+        }
+
+        public static int GetGunUpgradeCost(int lvl)
+        {
+            return m_GunPowerDict[lvl];
+        }
+
+        public static int GetRocketUpgradeCost(int lvl)
+        {
+            return m_RocketPowerDict[lvl];
         }
     }
 }

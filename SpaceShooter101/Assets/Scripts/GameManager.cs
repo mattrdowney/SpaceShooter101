@@ -48,6 +48,7 @@ namespace praveen.One
             }
             DontDestroyOnLoad(this.gameObject);
             m_PlayerHp = 3;
+            PlayerPrefs.DeleteKey(m_AmorKey);
             GetSavedData();
         }
 
@@ -178,7 +179,7 @@ namespace praveen.One
 
         public void LoadShopScene()
         {
-            SceneManager.LoadScene("Shop", LoadSceneMode.Single);
+            SceneManager.LoadScene("ShopMenu", LoadSceneMode.Single);
         }
 
         public void NewGame()
@@ -209,6 +210,29 @@ namespace praveen.One
         public int GetCoinCount()
         {
             return m_Coins;
+        }
+
+        public void UpgradeGun()
+        {
+            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.GunLevel);
+            if (m_Coins >= upgradeCost)
+            {
+                m_Coins -= upgradeCost;
+                m_ShooterAmor.GunLevel++;
+                SaveData();
+            }
+            
+        }
+
+        public void UpgradeRocket()
+        {
+            int upgradeCost = Shop.GetGunUpgradeCost(m_ShooterAmor.RocketLevel);
+            if (m_Coins >= upgradeCost)
+            {
+                m_Coins -= upgradeCost;
+                m_ShooterAmor.RocketLevel++;
+                SaveData();
+            }
         }
     }
 }

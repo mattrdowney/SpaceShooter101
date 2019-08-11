@@ -31,7 +31,10 @@ namespace praveen.One
                 m_Instance = this;
             }
 
+            GameManager.Instance.NewGame();
         }
+
+
 
         public void StartSession()
         {

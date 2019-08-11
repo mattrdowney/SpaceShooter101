@@ -186,6 +186,9 @@ namespace praveen.One
         {
             m_PlayerHp = 3;
             m_Score = 0;
+            HudController.Instance.SetCoins(m_Coins);
+            HudController.Instance.SetScore(m_Score);
+            HudController.Instance.EnemiesKilled(m_EnemiesKilled);
         }
 
         public GameOverUI GetGameOverUI()

@@ -110,7 +110,7 @@ namespace praveen.One
 
         void Init()
         {
-            int coinsInHand = GameManager.Instance.GetCoinCount();
+            int coinsInHand = GameManager.Instance.GetCoinsInHand();
             m_ShooterAmor   = GameManager.Instance.GetAmorData();
 
             m_Coins.text = coinsInHand.ToString();
@@ -150,10 +150,10 @@ namespace praveen.One
             //////
             // Set Shield Related Stuff
             //////
-            m_ShiledSlider.maxValue     = m_ShieldDict.Count();
-            m_ShiledSlider.value = GetCurrentShieldLevel(GameManager.Instance.GetShieldDuration());
-            int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetShieldDuration());
+            int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetCurrentShield().Duration);
             int shieldCost = GetNextShieldCost(shieldLvl);
+            m_ShiledSlider.maxValue = m_ShieldDict.Count();
+            m_ShiledSlider.value = shieldLvl;
             m_ShieldInfo.text = GetShieldInfoText(shieldLvl);
             m_ShieldBtn.interactable = SetButtonIntractable(shieldCost, coinsInHand);
 
@@ -195,7 +195,7 @@ namespace praveen.One
 
         string GetShieldInfoText(int currentLvl)
         {
-            int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetShieldDuration());
+            int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetCurrentShield().Duration);
             int shieldCost = GetNextShieldCost(shieldLvl);
 
             if (currentLvl == m_ShieldDict.OrderByDescending(x => x.Key).First().Key)
@@ -211,7 +211,7 @@ namespace praveen.One
 
         string GetCostString(int upgradeCost)
         {
-            if(upgradeCost <= GameManager.Instance.GetCoinCount())
+            if(upgradeCost <= GameManager.Instance.GetCoinsInHand())
             {
                 return "<color=#00dd25>" + upgradeCost + "</color>"; // green
             }

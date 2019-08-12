@@ -90,11 +90,11 @@ namespace praveen.One
             }
 
             m_TimeSinceLastHit += Time.deltaTime;
-            if (GameManager.Instance.GetShieldActTime() < m_TimeSinceLastHit)
-            {
-                HudController.Instance.SetShieldActiveProgress(m_TimeSinceLastHit);
-                m_CanActivateShield = true;
-            }
+            //if (GameManager.Instance.GetShieldActTime() < m_TimeSinceLastHit)
+            //{
+            //    HudController.Instance.SetShieldActiveProgress(m_TimeSinceLastHit);
+            //    m_CanActivateShield = true;
+            //}
 
         }
 

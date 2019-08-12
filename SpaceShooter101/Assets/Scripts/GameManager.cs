@@ -5,6 +5,23 @@ using UnityEngine.SceneManagement;
 
 namespace praveen.One
 {
+    [System.Serializable]
+    public struct ShooterData
+    {
+        public int HighScore;
+        public int CoinsInHand;
+        public ShooterAmor Amor;
+        public Shield CurrentShield;
+
+        public ShooterData(int highScore, int coins, ShooterAmor amor, Shield shield)
+        {
+            this.HighScore = highScore;
+            this.CoinsInHand = coins;
+            this.Amor = amor;
+            this.CurrentShield = shield;
+        }
+    }
+
     public class GameManager : MonoBehaviour
     {
         #region singleton stuff
@@ -18,24 +35,17 @@ namespace praveen.One
 
 
         #region MetaData
-        string m_CoinsKey       = "SHOOTER.COINS";
-        string m_HighScoreKey   = "SHOOTER.HIGHSCORE";
-        string m_AmorKey        = "SHOOTER.AMOR";
-        string m_ShieldKey      = "SHOOTER.SHIELD";
+        string m_ShooterDataKey = "SHOOTER.DATA";
         #endregion
 
         #region PrivateFields
         int m_PlayerHp;
         int m_Level;
-        int m_Coins;
-        float m_ShieldTime;
-        float m_ShieldActTime;
         int m_Score;
         int m_EnemiesKilled;
-        int m_HighScore;
         bool m_IsNewRecord;
-        int m_ShieldDuration;
         ShooterAmor m_ShooterAmor;
+        ShooterData m_ShooterData;
         #endregion
 
         private void Awake()
@@ -50,28 +60,42 @@ namespace praveen.One
             }
             DontDestroyOnLoad(this.gameObject);
             m_PlayerHp = 3;
-            PlayerPrefs.DeleteKey(m_AmorKey);
-            GetSavedData();
+
+            PlayerPrefs.DeleteAll() ;
+
+            ReadSavedData();
         }
 
-        void GetSavedData()
+        /// <summary>
+        /// Get Saved Data
+        /// </summary>
+        void ReadSavedData()
         {
-            m_HighScore      = PlayerPrefs.GetInt(m_HighScoreKey, 0);
-            m_Coins          = PlayerPrefs.GetInt(m_CoinsKey, 0);
-            m_ShieldDuration = PlayerPrefs.GetInt(m_ShieldKey, 3);
+            string shooterData = PlayerPrefs.GetString(m_ShooterDataKey, null);
 
-            string amorData = PlayerPrefs.GetString(m_AmorKey, null);
-
-            if (string.IsNullOrEmpty(amorData))
+            if (string.IsNullOrEmpty(shooterData))
             {
-                ShooterAmor amor = new ShooterAmor(1, 1, 1);
-                m_ShooterAmor = amor;
+                ShooterAmor amor    = new ShooterAmor(1, 1, 1);
+                Shield shield       = new Shield(0, 3);
+                ShooterData data    = new ShooterData(0, 0, amor, shield);
+
+                m_ShooterData = data;
             }
             else
             {
-                m_ShooterAmor = JsonUtility.FromJson<ShooterAmor>(amorData);
+                m_ShooterData = JsonUtility.FromJson<ShooterData>(shooterData);
             }
 
+        }
+
+        /// <summary>
+        /// Save Data in to disk
+        /// </summary>
+        void SaveData()
+        {
+            string shooterData = JsonUtility.ToJson(m_ShooterData);
+            PlayerPrefs.SetString(m_ShooterDataKey, shooterData);
+            PlayerPrefs.Save();
         }
 
         public void AddScore(int score)
@@ -142,35 +166,48 @@ namespace praveen.One
             return Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)).y;
         }
 
-        public float GetShieldTime()
+        //public float GetShieldTime()
+        //{
+        //    return m_ShieldTime;
+        //}
+
+        //public float GetShieldActTime()
+        //{
+        //    return m_ShieldActTime;
+        //}
+
+        public Shield GetCurrentShield()
         {
-            return m_ShieldTime;
+            return m_ShooterData.CurrentShield;
         }
 
-        public float GetShieldActTime()
-        {
-            return m_ShieldActTime;
-        }
-
+        /// <summary>
+        /// Add Coins
+        /// </summary>
         public void AddCoin()
         {
-            m_Coins++;
-            HudController.Instance.SetCoins(m_Coins);
+            m_ShooterData.CoinsInHand +=1;
+            HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
         }
 
+        /// <summary>
+        /// Return the high Score
+        /// </summary>
+        /// <returns></returns>
         public int GetHighScore()
         {
-            return m_HighScore;
+            return m_ShooterData.HighScore;
         }
+
 
         private void GameOver()
         {
            m_IsNewRecord = false;
 
-           if(m_Score > m_HighScore)
+           if(m_Score > m_ShooterData.HighScore)
            {
-                m_IsNewRecord = true;
-                m_HighScore = m_Score;
+                m_IsNewRecord           = true;
+                m_ShooterData.HighScore = m_Score;
            }
 
             SaveData();
@@ -188,24 +225,14 @@ namespace praveen.One
         {
             m_PlayerHp = 3;
             m_Score = 0;
-            HudController.Instance.SetCoins(m_Coins);
+            HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
             HudController.Instance.SetScore(m_Score);
             HudController.Instance.EnemiesKilled(m_EnemiesKilled);
         }
 
         public GameOverUI GetGameOverUI()
         {
-            return new GameOverUI(m_Score, m_HighScore, m_Coins, m_IsNewRecord);
-        }
-
-        void SaveData()
-        {
-            string amorData = JsonUtility.ToJson(m_ShooterAmor);
-            PlayerPrefs.SetString(m_AmorKey, amorData);
-            PlayerPrefs.SetInt(m_HighScoreKey, m_HighScore);
-            PlayerPrefs.SetInt(m_CoinsKey, m_Coins);
-            PlayerPrefs.SetInt(m_ShieldKey, m_ShieldDuration);
-            PlayerPrefs.Save();
+            return new GameOverUI(m_Score, m_ShooterData.HighScore, m_ShooterData.CoinsInHand, m_IsNewRecord);
         }
 
         public ShooterAmor GetAmorData()
@@ -213,14 +240,15 @@ namespace praveen.One
             return m_ShooterAmor;
         }
 
-        public int GetShieldDuration()
-        {
-            return m_ShieldDuration;
-        }
 
-        public int GetCoinCount()
+
+        /// <summary>
+        /// Returns available coin count
+        /// </summary>
+        /// <returns></returns>
+        public int GetCoinsInHand()
         {
-            return m_Coins;
+            return m_ShooterData.CoinsInHand;
         }
 
         public void UpgradeGun(System.Action<bool> callback)
@@ -232,9 +260,9 @@ namespace praveen.One
                 return;
 
             int upgradeCost = Shop.GetGunUpgradeCost(nextGunLvl) ;
-            if (m_Coins >= upgradeCost)
+            if (m_ShooterData.CoinsInHand >= upgradeCost)
             {
-                m_Coins -= upgradeCost;
+                m_ShooterData.CoinsInHand -= upgradeCost;
                 m_ShooterAmor.GunLevel = nextGunLvl;
                 SaveData();
                 callback.Invoke(true);
@@ -250,9 +278,9 @@ namespace praveen.One
                 return;
 
             int upgradeCost = Shop.GetMissileMagUpgrdCost(nextMagLevel);
-            if (m_Coins >= upgradeCost)
+            if (m_ShooterData.CoinsInHand >= upgradeCost)
             {
-                m_Coins -= upgradeCost;
+                m_ShooterData.CoinsInHand -= upgradeCost;
                 m_ShooterAmor.MissileMagazineLvl = nextMagLevel;
                 SaveData();
                 callback.Invoke(true);
@@ -262,9 +290,9 @@ namespace praveen.One
         public void BuyMissile(System.Action<bool> callback)
         {
             int mcost = Shop.GetMissileCost();
-            if (m_Coins >= mcost)
+            if (m_ShooterData.CoinsInHand >= mcost)
             {
-                m_Coins -= mcost;
+                m_ShooterData.CoinsInHand -= mcost;
                 m_ShooterAmor.MissileCount += 1;
                 SaveData();
                 callback.Invoke(true);
@@ -274,15 +302,15 @@ namespace praveen.One
 
         public void BuyShield(System.Action<bool> callback)
         {
-            int currentLvl = Shop.GetCurrentShieldLevel(m_ShieldDuration);
+            int currentLvl = Shop.GetCurrentShieldLevel(m_ShooterData.CurrentShield.Duration);
             Shield shield = Shop.GetNextShieldDataByLvl(currentLvl+1);
 
             if(shield.Cost > -1)
             {
-                if (m_Coins >= shield.Cost)
+                if (m_ShooterData.CoinsInHand >= shield.Cost)
                 {
-                    m_Coins -= shield.Cost;
-                    m_ShieldDuration = shield.Duration;
+                    m_ShooterData.CoinsInHand -= shield.Cost;
+                    m_ShooterData.CurrentShield = shield;
                     SaveData();
                     callback.Invoke(true);
                 }

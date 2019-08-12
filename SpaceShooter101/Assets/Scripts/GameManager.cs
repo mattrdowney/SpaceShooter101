@@ -124,6 +124,7 @@ namespace praveen.One
 
         void UpdateHUD()
         {
+            HudController.Instance.SetPlayerLifes(m_Session.Lifes);
             HudController.Instance.SetPlayerHP(m_Session.HP/ 100);
             HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
             HudController.Instance.SetScore(m_Session.Score);
@@ -240,6 +241,15 @@ namespace praveen.One
         public int GetHighScore()
         {
             return m_ShooterData.HighScore;
+        }
+
+        /// <summary>
+        /// Lifes available for this session
+        /// </summary>
+        /// <returns></returns>
+        public int LifesLeft()
+        {
+            return m_Session.Lifes;
         }
 
         public void ForceGameOver()
@@ -361,6 +371,20 @@ namespace praveen.One
                 }
             }
             
+        }
+
+        public void BuyLife(int LifeCost, System.Action<bool> callback)
+        {
+            if (m_Session.Lifes == 3)
+                return;
+
+            if (m_ShooterData.CoinsInHand >= LifeCost)
+            {
+                m_ShooterData.CoinsInHand -= LifeCost;
+                m_Session.Lifes += 1;
+                SaveData();
+                callback.Invoke(true);
+            }
         }
 
         public bool OnUseOneMissile()

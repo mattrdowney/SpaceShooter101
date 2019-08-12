@@ -57,6 +57,8 @@ namespace praveen.One
         ShooterAmor m_ShooterAmor;
 
         static int m_MissileCost;
+        static int m_LifeCost;
+        bool m_BoughtLife;
 
 
         #region SerializedFields
@@ -67,22 +69,27 @@ namespace praveen.One
         [SerializeField] Text m_MagazineInfo;
         [SerializeField] Text m_MissileInfoText;
         [SerializeField] Text m_ShieldInfo;
-        
+        [SerializeField] Text m_LifeInfo;
+
         [SerializeField] Slider m_GunPowerSlider;
         [SerializeField] Slider m_MagazineSlider;
         [SerializeField] Slider m_MissileSlider;
         [SerializeField] Slider m_ShiledSlider;
+        [SerializeField] Slider m_LifeSlider;
 
         [SerializeField] Button m_GunUpgradeBtn;
         [SerializeField] Button m_MagazineUpgrdBtn;
         [SerializeField] Button m_MissileAddBtn;
         [SerializeField] Button m_ShieldBtn;
+        [SerializeField] Button m_LifeBtn;
         #endregion
 
         // Start is called before the first frame update
         void Start()
         {
+            m_BoughtLife = false;
             m_MissileCost = 15;
+            m_LifeCost = 30;
             SetUpgradeInfo();
             Init();
         }
@@ -165,6 +172,13 @@ namespace praveen.One
             m_ShieldInfo.text = GetShieldInfoText(shieldLvl);
             m_ShieldBtn.interactable = SetButtonIntractable(shieldCost, coinsInHand);
 
+            //////
+            // Set Life Related Stuff
+            //////
+            m_LifeSlider.value = GameManager.Instance.LifesLeft();
+            m_LifeBtn.interactable = SetButtonIntractable(m_LifeCost, coinsInHand);
+            m_LifeInfo.text = GetLifeInfoText(GameManager.Instance.LifesLeft());
+
         }
 
         string GetGunPowerInfoText(int currentLvl)
@@ -213,6 +227,21 @@ namespace praveen.One
             }
             return "<color=#cfd2d4> Upgrade to " + m_ShieldDict[(currentLvl + 1)].Duration + " sec. for :</color>" +
                 GetCostString(shieldCost);
+        }
+
+        string GetLifeInfoText(int lives)
+        {
+            if(lives == 3)
+            {
+                m_LifeBtn.interactable = false;
+                return "<color=#fd0000>Has Max Life count!</color>";
+            }
+            else if(m_BoughtLife)
+            {
+                m_LifeBtn.interactable = false;
+                return "<color=#fd0000>Already bought!</color>";
+            }
+            return "<color=#cfd2d4> Buy One Life for : </color>" + GetCostString(m_LifeCost);
         }
 
         
@@ -312,6 +341,19 @@ namespace praveen.One
                 if (sucess)
                 {
                     Init();
+                }
+            });
+        }
+
+        public void OnClickBuyLife()
+        {
+            GameManager.Instance.BuyLife(30, (bool sucess) =>
+            {
+                if (sucess)
+                {
+                    Init();
+                    m_LifeBtn.interactable = false;
+                    m_BoughtLife = true;
                 }
             });
         }

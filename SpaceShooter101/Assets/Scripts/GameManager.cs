@@ -21,6 +21,7 @@ namespace praveen.One
         string m_CoinsKey       = "SHOOTER.COINS";
         string m_HighScoreKey   = "SHOOTER.HIGHSCORE";
         string m_AmorKey        = "SHOOTER.AMOR";
+        string m_ShieldKey      = "SHOOTER.SHIELD";
         #endregion
 
         #region PrivateFields
@@ -33,6 +34,7 @@ namespace praveen.One
         int m_EnemiesKilled;
         int m_HighScore;
         bool m_IsNewRecord;
+        int m_ShieldDuration;
         ShooterAmor m_ShooterAmor;
         #endregion
 
@@ -54,8 +56,9 @@ namespace praveen.One
 
         void GetSavedData()
         {
-            m_HighScore = PlayerPrefs.GetInt(m_HighScoreKey, 0);
-            m_Coins     = PlayerPrefs.GetInt(m_CoinsKey, 0);
+            m_HighScore      = PlayerPrefs.GetInt(m_HighScoreKey, 0);
+            m_Coins          = PlayerPrefs.GetInt(m_CoinsKey, 0);
+            m_ShieldDuration = PlayerPrefs.GetInt(m_ShieldKey, 3);
 
             string amorData = PlayerPrefs.GetString(m_AmorKey, null);
 
@@ -201,12 +204,18 @@ namespace praveen.One
             PlayerPrefs.SetString(m_AmorKey, amorData);
             PlayerPrefs.SetInt(m_HighScoreKey, m_HighScore);
             PlayerPrefs.SetInt(m_CoinsKey, m_Coins);
+            PlayerPrefs.SetInt(m_ShieldKey, m_ShieldDuration);
             PlayerPrefs.Save();
         }
 
         public ShooterAmor GetAmorData()
         {
             return m_ShooterAmor;
+        }
+
+        public int GetShieldDuration()
+        {
+            return m_ShieldDuration;
         }
 
         public int GetCoinCount()
@@ -260,6 +269,25 @@ namespace praveen.One
                 SaveData();
                 callback.Invoke(true);
             }
+        }
+
+
+        public void BuyShield(System.Action<bool> callback)
+        {
+            int currentLvl = Shop.GetCurrentShieldLevel(m_ShieldDuration);
+            Shield shield = Shop.GetNextShieldDataByLvl(currentLvl+1);
+
+            if(shield.Cost > -1)
+            {
+                if (m_Coins >= shield.Cost)
+                {
+                    m_Coins -= shield.Cost;
+                    m_ShieldDuration = shield.Duration;
+                    SaveData();
+                    callback.Invoke(true);
+                }
+            }
+            
         }
     }
 }

@@ -23,6 +23,7 @@ namespace praveen.One
 
         #region SerializedFields
         [SerializeField] Slider m_ShieldSlider;
+        [SerializeField] Slider m_HPSlider;
         [SerializeField] Text m_Score;
         [SerializeField] Text m_Coins;
         [SerializeField] Text m_RocketsLeft;
@@ -37,9 +38,9 @@ namespace praveen.One
 
         }
 
-        public void SetPlayerHelth(int helth)
+        public void SetPlayerLifes(int lifes)
         {
-            switch (helth)
+            switch (lifes)
             {
                 case 0:
                     m_HelthIcons[0].gameObject.SetActive(false);
@@ -51,6 +52,11 @@ namespace praveen.One
                     m_HelthIcons[2].gameObject.SetActive(false);
                     break;
             }
+        }
+
+        public void SetPlayerHP(float value)
+        {
+            m_HPSlider.value = value;
         }
 
         public void SetShieldActiveProgress(float value)

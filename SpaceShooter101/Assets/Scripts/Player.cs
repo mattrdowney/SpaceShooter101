@@ -13,7 +13,6 @@ namespace praveen.One
         bool m_IsGunReloaded;
         bool m_IsMissileReloaded;
 
-
         private Transform m_PlayerTransform;
 
         private bool m_IsShieldActive;
@@ -69,7 +68,7 @@ namespace praveen.One
 
             if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy")
             {
-                //GameManager.Instance.OnPlayerHit();
+                GameManager.Instance.OnPlayerHit(10);
                 if (OnPlayerHit != null)
                 {
                     OnPlayerHit();

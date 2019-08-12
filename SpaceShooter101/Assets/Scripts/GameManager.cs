@@ -10,15 +10,17 @@ namespace praveen.One
         public bool IsActive;
         public int Level;
         public int Score;
-        public int Hp;
+        public int Lifes;
+        public float HP;
         public int EnemiesKilled;
 
-        public ShooterSession(bool isActive, int level, int score, int hp, int enemiesKilled)
+        public ShooterSession(bool isActive, int level, int score, int lifes, float hp, int enemiesKilled)
         {
-            this.IsActive = isActive;
-            this.Level = level;
-            this.Score = score;
-            this.Hp = hp;
+            this.IsActive   = isActive;
+            this.Level      = level;
+            this.Score      = score;
+            this.Lifes      = lifes;
+            this.HP         = hp;
             this.EnemiesKilled = enemiesKilled;
         }
     }
@@ -112,7 +114,7 @@ namespace praveen.One
             else
             {
                 // Start New Game
-                m_Session = new ShooterSession(true,1, 0 ,3, 0);
+                m_Session = new ShooterSession(true,1, 0 ,3 , 100 , 0);
             }
 
             UpdateHUD();
@@ -122,6 +124,7 @@ namespace praveen.One
 
         void UpdateHUD()
         {
+            HudController.Instance.SetPlayerHP(m_Session.HP/ 100);
             HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
             HudController.Instance.SetScore(m_Session.Score);
             HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
@@ -150,14 +153,23 @@ namespace praveen.One
             HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
         }
 
-        public void OnPlayerHit()
+        public void OnPlayerHit(float damage)
         {
-            m_Session.Hp -= 1;
-            HudController.Instance.SetPlayerHelth(m_Session.Hp);
+            m_Session.HP -= damage;
+            HudController.Instance.SetPlayerHP(m_Session.HP / 100);
 
-            if(m_Session.Hp < 1)
+            if(m_Session.HP < 0)
             {
-                GameOver();
+                if(m_Session.Lifes > 1)
+                {
+                    m_Session.HP = 100f;
+                    m_Session.Lifes -= 1;
+                    HudController.Instance.SetPlayerLifes(m_Session.Lifes);
+                }
+                else
+                {
+                    GameOver();
+                }
             }
         }
 
@@ -206,15 +218,6 @@ namespace praveen.One
             return Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)).y;
         }
 
-        //public float GetShieldTime()
-        //{
-        //    return m_ShieldTime;
-        //}
-
-        //public float GetShieldActTime()
-        //{
-        //    return m_ShieldActTime;
-        //}
 
         public Shield GetCurrentShield()
         {

@@ -16,12 +16,16 @@ namespace praveen.One
 
         private Transform m_PlayerTransform;
 
-        private float m_TimeSinceLastHit;
-        private bool m_CanActivateShield;
+        private bool m_IsShieldActive;
+
+        #region DeligateStuff
+        public delegate void PlayerEventHandler();
+
+        public static event PlayerEventHandler OnPlayerHit;
+        #endregion
 
         void Start()
         {
-            m_CanActivateShield = false;
             m_IsGunReloaded = true;
             m_IsMissileReloaded = true;
             m_PlayerTransform = this.transform;
@@ -60,12 +64,16 @@ namespace praveen.One
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (m_IsShieldActive)
+                return;
+
             if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy")
             {
-
-                m_TimeSinceLastHit = 0;
-                m_CanActivateShield = false;
                 //GameManager.Instance.OnPlayerHit();
+                if (OnPlayerHit != null)
+                {
+                    OnPlayerHit();
+                }
 
                 if (collision.gameObject.tag == "EnemyBullet"){
                     BulletController.RecycleBullet(collision.gameObject);
@@ -86,14 +94,15 @@ namespace praveen.One
             {
                 LaunchMissile();
             }
+        }
 
-            m_TimeSinceLastHit += Time.deltaTime;
-            //if (GameManager.Instance.GetShieldActTime() < m_TimeSinceLastHit)
-            //{
-            //    HudController.Instance.SetShieldActiveProgress(m_TimeSinceLastHit);
-            //    m_CanActivateShield = true;
-            //}
-
+        /// <summary>
+        /// Enable / Disable shield
+        /// </summary>
+        /// <param name="state"></param>
+        public void ShieldSetActive(bool state)
+        {
+            m_IsShieldActive = state;
         }
 
         public override void Shoot()

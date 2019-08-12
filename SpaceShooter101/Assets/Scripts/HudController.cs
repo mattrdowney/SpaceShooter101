@@ -55,7 +55,7 @@ namespace praveen.One
 
         public void SetShieldActiveProgress(float value)
         {
-            m_ShieldSlider.value = (value / 10);
+            m_ShieldSlider.value = (value);
         }
 
         /// <summary>

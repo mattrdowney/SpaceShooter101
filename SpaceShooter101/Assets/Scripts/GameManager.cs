@@ -5,6 +5,24 @@ using UnityEngine.SceneManagement;
 
 namespace praveen.One
 {
+    public struct ShooterSession
+    {
+        public bool IsActive;
+        public int Level;
+        public int Score;
+        public int Hp;
+        public int EnemiesKilled;
+
+        public ShooterSession(bool isActive, int level, int score, int hp, int enemiesKilled)
+        {
+            this.IsActive = isActive;
+            this.Level = level;
+            this.Score = score;
+            this.Hp = hp;
+            this.EnemiesKilled = enemiesKilled;
+        }
+    }
+
     [System.Serializable]
     public struct ShooterData
     {
@@ -39,13 +57,10 @@ namespace praveen.One
         #endregion
 
         #region PrivateFields
-        int m_PlayerHp;
-        int m_Level;
-        int m_Score;
-        int m_EnemiesKilled;
         bool m_IsNewRecord;
         ShooterAmor m_ShooterAmor;
         ShooterData m_ShooterData;
+        ShooterSession m_Session;
         #endregion
 
         private void Awake()
@@ -59,7 +74,6 @@ namespace praveen.One
                 m_Instance = this;
             }
             DontDestroyOnLoad(this.gameObject);
-            m_PlayerHp = 3;
 
             PlayerPrefs.DeleteAll() ;
 
@@ -75,7 +89,7 @@ namespace praveen.One
 
             if (string.IsNullOrEmpty(shooterData))
             {
-                ShooterAmor amor    = new ShooterAmor(1, 1, 1);
+                ShooterAmor amor    = new ShooterAmor(1, 1, 1, 1);
                 Shield shield       = new Shield(0, 3);
                 ShooterData data    = new ShooterData(0, 0, amor, shield);
 
@@ -86,6 +100,28 @@ namespace praveen.One
                 m_ShooterData = JsonUtility.FromJson<ShooterData>(shooterData);
             }
 
+        }
+
+
+        public void StartNewGameOrContinue()
+        {
+            if (m_Session.IsActive)
+            {
+                // Continue Current Session
+                m_Session.Level += 1;
+            }
+            else
+            {
+                // Start New Game
+                m_Session = new ShooterSession(true,1, 0 ,3, 0);
+            }
+
+            HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
+            HudController.Instance.SetScore(m_Session.Score);
+            HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
+            HudController.Instance.SetMissileData(m_ShooterData.Amor.MissileCount, m_ShooterData.Amor.MissileCount);
+
+            SessionManager.Instance.StartSession();
         }
 
         /// <summary>
@@ -100,22 +136,22 @@ namespace praveen.One
 
         public void AddScore(int score)
         {
-            m_Score += score;
-            HudController.Instance.SetScore(m_Score);
+            m_Session.Score += score;
+            HudController.Instance.SetScore(m_Session.Score);
         }
 
         public void UpdateEnemiesKilled()
         {
-            m_EnemiesKilled += 1;
-            HudController.Instance.EnemiesKilled(m_EnemiesKilled);
+            m_Session.EnemiesKilled += 1;
+            HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
         }
 
         public void OnPlayerHit()
         {
-            m_PlayerHp -= 1;
-            HudController.Instance.SetPlayerHelth(m_PlayerHp);
+            m_Session.Hp -= 1;
+            HudController.Instance.SetPlayerHelth(m_Session.Hp);
 
-            if(m_PlayerHp < 1)
+            if(m_Session.Hp < 1)
             {
                 GameOver();
             }
@@ -127,7 +163,7 @@ namespace praveen.One
         /// <returns></returns>
         public int GetLevel()
         {
-            return m_Level;
+            return m_Session.Level;
         }
 
         /// <summary>
@@ -204,11 +240,13 @@ namespace praveen.One
         {
            m_IsNewRecord = false;
 
-           if(m_Score > m_ShooterData.HighScore)
+           if(m_Session.Score > m_ShooterData.HighScore)
            {
                 m_IsNewRecord           = true;
-                m_ShooterData.HighScore = m_Score;
+                m_ShooterData.HighScore = m_Session.Score;
            }
+
+            m_Session.IsActive = false;
 
             SaveData();
 
@@ -221,25 +259,19 @@ namespace praveen.One
             SceneManager.LoadScene("ShopMenu", LoadSceneMode.Single);
         }
 
-        public void NewGame()
-        {
-            m_PlayerHp = 3;
-            m_Score = 0;
-            HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
-            HudController.Instance.SetScore(m_Score);
-            HudController.Instance.EnemiesKilled(m_EnemiesKilled);
-        }
-
         public GameOverUI GetGameOverUI()
         {
-            return new GameOverUI(m_Score, m_ShooterData.HighScore, m_ShooterData.CoinsInHand, m_IsNewRecord);
+            return new GameOverUI(m_Session.Score, m_ShooterData.HighScore, m_ShooterData.CoinsInHand, m_IsNewRecord);
         }
 
-        public ShooterAmor GetAmorData()
+        /// <summary>
+        /// Returns equiped amour
+        /// </summary>
+        /// <returns></returns>
+        public ShooterAmor GetCurrentAmorData()
         {
             return m_ShooterAmor;
         }
-
 
 
         /// <summary>

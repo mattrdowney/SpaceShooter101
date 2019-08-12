@@ -14,7 +14,9 @@ namespace praveen.One
         #endregion
 
 
-        #region MetaData
+        #region SerializedFields
+        [SerializeField] GameObject m_Player;
+        [SerializeField] GameObject m_ScriptRef;
         #endregion
 
         #region PrivateFields
@@ -30,15 +32,19 @@ namespace praveen.One
             {
                 m_Instance = this;
             }
-
-            GameManager.Instance.NewGame();
         }
 
+        private void Start()
+        {
+            GameManager.Instance.StartNewGameOrContinue();
+        }
 
 
         public void StartSession()
         {
-
+            // countdown animation
+            m_Player.gameObject.SetActive(true);
+            m_ScriptRef.gameObject.SetActive(true);
         }
 
     }

@@ -12,12 +12,14 @@ namespace praveen.One
     {
         public int GunLevel;
         public int MissileMagazineLvl;
+        public int MagazineCapacity;
         public int MissileCount;
 
-        public ShooterAmor(int gunLvl, int missileMagLvl, int missileCount)
+        public ShooterAmor(int gunLvl, int missileMagLvl, int magCapacity, int missileCount)
         {
             this.GunLevel           = gunLvl;
             this.MissileMagazineLvl = missileMagLvl;
+            this.MagazineCapacity   = magCapacity;
             this.MissileCount       = missileCount;
         }
     }
@@ -87,6 +89,12 @@ namespace praveen.One
 
         void SetUpgradeInfo()
         {
+            // clear previous data if exists
+            m_GunPowerDict.Clear();
+            m_MissileMagazine.Clear();
+            m_ShieldDict.Clear();
+
+
             m_GunPowerDict.Add(1, 0);
             m_GunPowerDict.Add(2, 10);
             m_GunPowerDict.Add(3, 15);
@@ -111,7 +119,7 @@ namespace praveen.One
         void Init()
         {
             int coinsInHand = GameManager.Instance.GetCoinsInHand();
-            m_ShooterAmor   = GameManager.Instance.GetAmorData();
+            m_ShooterAmor   = GameManager.Instance.GetCurrentAmorData();
 
             m_Coins.text = coinsInHand.ToString();
 

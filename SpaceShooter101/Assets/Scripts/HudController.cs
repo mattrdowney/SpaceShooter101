@@ -85,9 +85,14 @@ namespace praveen.One
             m_Coins.text = count.ToString();
         }
 
-        public void SetRocketLeft(int count)
+        /// <summary>
+        /// Set Missile Data
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="capacity"></param>
+        public void SetMissileData(int count, int capacity)
         {
-            m_RocketsLeft.text = count.ToString();
+            m_RocketsLeft.text = count.ToString() +"/"+ capacity.ToString();
         }
 
 

@@ -25,8 +25,6 @@ namespace praveen.One
             m_IsGunReloaded = true;
             m_IsMissileReloaded = true;
             m_PlayerTransform = this.transform;
-
-            GameManager.Instance.NewGame();
         }
 
         // Update is called once per frame

@@ -129,6 +129,9 @@ namespace praveen.One
 
             GameObject missile = BulletController.Instance.GetMissile();
 
+            if (missile == null)
+                return;
+
             missile.transform.SetParent(m_Gun);
             missile.transform.localPosition = Vector3.zero;
             missile.transform.localRotation = Quaternion.identity;

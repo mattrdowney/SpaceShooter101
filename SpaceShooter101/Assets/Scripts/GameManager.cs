@@ -58,7 +58,6 @@ namespace praveen.One
 
         #region PrivateFields
         bool m_IsNewRecord;
-        ShooterAmor m_ShooterAmor;
         ShooterData m_ShooterData;
         ShooterSession m_Session;
         #endregion
@@ -116,12 +115,17 @@ namespace praveen.One
                 m_Session = new ShooterSession(true,1, 0 ,3, 0);
             }
 
+            UpdateHUD();
+
+            SessionManager.Instance.StartSession();
+        }
+
+        void UpdateHUD()
+        {
             HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
             HudController.Instance.SetScore(m_Session.Score);
             HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
-            HudController.Instance.SetMissileData(m_ShooterData.Amor.MissileCount, m_ShooterData.Amor.MissileCount);
-
-            SessionManager.Instance.StartSession();
+            HudController.Instance.SetMissileData(m_ShooterData.Amor.MissileCount, m_ShooterData.Amor.MagazineCapacity);
         }
 
         /// <summary>
@@ -235,6 +239,11 @@ namespace praveen.One
             return m_ShooterData.HighScore;
         }
 
+        public void ForceGameOver()
+        {
+            GameOver();
+        }
+
 
         private void GameOver()
         {
@@ -270,7 +279,7 @@ namespace praveen.One
         /// <returns></returns>
         public ShooterAmor GetCurrentAmorData()
         {
-            return m_ShooterAmor;
+            return m_ShooterData.Amor;
         }
 
 
@@ -286,7 +295,7 @@ namespace praveen.One
         public void UpgradeGun(System.Action<bool> callback)
         {
 
-            int nextGunLvl = Shop.GetNextGunLevel(m_ShooterAmor.GunLevel);
+            int nextGunLvl = Shop.GetNextGunLevel(m_ShooterData.Amor.GunLevel);
 
             if (nextGunLvl == -1)
                 return;
@@ -295,7 +304,7 @@ namespace praveen.One
             if (m_ShooterData.CoinsInHand >= upgradeCost)
             {
                 m_ShooterData.CoinsInHand -= upgradeCost;
-                m_ShooterAmor.GunLevel = nextGunLvl;
+                m_ShooterData.Amor.GunLevel = nextGunLvl;
                 SaveData();
                 callback.Invoke(true);
             }
@@ -304,7 +313,7 @@ namespace praveen.One
 
         public void UpgradeMagazine(System.Action<bool> callback)
         {
-            int nextMagLevel = Shop.GetNextMissileMagLvl(m_ShooterAmor.MissileMagazineLvl);
+            int nextMagLevel = Shop.GetNextMissileMagLvl(m_ShooterData.Amor.MissileMagazineLvl);
 
             if (nextMagLevel == -1)
                 return;
@@ -313,7 +322,8 @@ namespace praveen.One
             if (m_ShooterData.CoinsInHand >= upgradeCost)
             {
                 m_ShooterData.CoinsInHand -= upgradeCost;
-                m_ShooterAmor.MissileMagazineLvl = nextMagLevel;
+                m_ShooterData.Amor.MissileMagazineLvl = nextMagLevel;
+                m_ShooterData.Amor.MagazineCapacity = Shop.GetMagazineCapacityByLvl(nextMagLevel);
                 SaveData();
                 callback.Invoke(true);
             }
@@ -325,7 +335,7 @@ namespace praveen.One
             if (m_ShooterData.CoinsInHand >= mcost)
             {
                 m_ShooterData.CoinsInHand -= mcost;
-                m_ShooterAmor.MissileCount += 1;
+                m_ShooterData.Amor.MissileCount += 1;
                 SaveData();
                 callback.Invoke(true);
             }
@@ -348,6 +358,17 @@ namespace praveen.One
                 }
             }
             
+        }
+
+        public bool OnUseOneMissile()
+        {
+            if (m_ShooterData.Amor.MissileCount > 0)
+            {
+                m_ShooterData.Amor.MissileCount -= 1;
+                UpdateHUD();
+                return true;
+            }
+            return false;
         }
     }
 }

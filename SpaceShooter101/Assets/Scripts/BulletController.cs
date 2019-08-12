@@ -61,11 +61,16 @@ namespace praveen.One
 
         public GameObject GetMissile()
         {
-            GameObject missile = m_Missiles.Spawn();
-            missile.transform.rotation = Quaternion.identity;
-            missile.transform.localPosition = Vector3.zero;
-            missile.SetActive(false);
-            return missile;
+            if (GameManager.Instance.OnUseOneMissile())
+            {
+                GameObject missile = m_Missiles.Spawn();
+                missile.transform.rotation = Quaternion.identity;
+                missile.transform.localPosition = Vector3.zero;
+                missile.SetActive(false);
+                return missile;
+            }
+            return null;
+            
         }
 
         public static void RecycleMissile(GameObject missile)

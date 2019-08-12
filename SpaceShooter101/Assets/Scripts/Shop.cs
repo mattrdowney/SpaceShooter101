@@ -147,7 +147,7 @@ namespace praveen.One
             // Set Missile Related Stuff
             //////
             int missileCount = m_ShooterAmor.MissileCount;
-            int missileCap = GetMagazineCapacityBylvl(m_ShooterAmor.MissileMagazineLvl);
+            int missileCap = m_ShooterAmor.MagazineCapacity;
             m_MissileSlider.maxValue = missileCap;
             m_MissileSlider.value = missileCount;
             m_MissileCount.text = "Missile Count:" + missileCount + "/" + missileCap;
@@ -192,7 +192,7 @@ namespace praveen.One
 
         string GetMissileCapacityInfoText()
         {
-            if (GetMagazineCapacityBylvl(m_ShooterAmor.MissileMagazineLvl) <= m_ShooterAmor.MissileCount)
+            if (m_ShooterAmor.MagazineCapacity <= m_ShooterAmor.MissileCount)
             {
                 m_MissileAddBtn.interactable = false;
                 return "<color=#fd0000>Storage Already Full !</color>";
@@ -256,6 +256,7 @@ namespace praveen.One
 
         public void OnClickHomeButton()
         {
+            GameManager.Instance.ForceGameOver();
             SceneManager.LoadScene("Start", LoadSceneMode.Single);
         }
 
@@ -327,16 +328,6 @@ namespace praveen.One
             
         }
 
-        public static int GetMagazineCapacityBylvl(int lvl)
-        {
-            if (m_MissileMagazine.ContainsKey(lvl))
-            {
-                return m_MissileMagazine[lvl].Capacity;
-            }
-
-            return -1;
-        }
-
         public static int GetMissileMagUpgrdCost(int lvl)
         {
             if (m_MissileMagazine.ContainsKey(lvl))
@@ -369,6 +360,16 @@ namespace praveen.One
                 return -1;
             }
             return lvl + 1;
+        }
+
+        public static int GetMagazineCapacityByLvl(int lvl)
+        {
+            if (m_MissileMagazine.ContainsKey(lvl))
+            {
+                return m_MissileMagazine[lvl].Capacity;
+            }
+
+            return -1;
         }
 
         public static int GetCurrentShieldLevel(int duration)

@@ -19,9 +19,13 @@ namespace praveen.One
 
 
         int number = 0;
+        int m_EnemyCountPerSession;
+        float m_EnemySpawnDelay;
 
         void Start()
         {
+            m_EnemyCountPerSession = GetEnemyWaveCountByLevel(GameManager.Instance.GetLevel());
+            m_EnemySpawnDelay = GetEnemySpawnDelayByLevel(GameManager.Instance.GetLevel());
             m_EnemyPool = new ObjectPool(m_Enemy, m_EnemyHolder, 30, false, null, CallDeactivate);
             StartCoroutine(SpawnEnemies());
         }
@@ -32,12 +36,12 @@ namespace praveen.One
         /// <returns></returns>
         IEnumerator SpawnEnemies()
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < m_EnemyCountPerSession; i++)
             {
                 GameObject enemyShip = m_EnemyPool.Spawn();
                 SetEnemyData(enemyShip);
                 enemyShip.transform.position = GetSpawnPoint();
-                yield return new WaitForSeconds(1.8f);
+                yield return new WaitForSeconds(m_EnemySpawnDelay);
             }
             
         }
@@ -82,6 +86,37 @@ namespace praveen.One
         int GetEnemyHitPointByLevel(int level)
         {
             return (level * 2) - 1;
+        }
+
+        /// <summary>
+        /// Number of enemies per session
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
+        int GetEnemyWaveCountByLevel(int lvl)
+        {
+            if(lvl > 5)
+            {
+                return 45;
+            }
+            return 30 + (lvl * 2);
+        }
+
+        /// <summary>
+        /// Get spawn delay by level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
+        float GetEnemySpawnDelayByLevel(int lvl)
+        {
+            if(lvl > 5)
+            {
+                return 0.9f;
+            }
+            else
+            {
+                return 1.8f - (lvl / 10);
+            }
         }
 
 

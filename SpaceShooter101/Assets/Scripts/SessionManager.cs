@@ -40,13 +40,17 @@ namespace praveen.One
             GameManager.Instance.StartNewGameOrContinue();
         }
 
-
+        /// <summary>
+        /// starts a session
+        /// </summary>
         public void StartSession()
         {
             m_OpemomgCountdown.SetActive(true);
         }
 
-
+        /// <summary>
+        /// starts a game
+        /// </summary>
         public void StartGame()
         {
             m_Player.gameObject.SetActive(true);

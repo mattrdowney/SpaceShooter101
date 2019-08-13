@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace praveen.One
 {
@@ -19,6 +18,9 @@ namespace praveen.One
             SetHighScoreTabele();
         }
 
+        /// <summary>
+        /// draw high score table
+        /// </summary>
         void SetHighScoreTabele()
         {
             int i = 0;
@@ -29,6 +31,10 @@ namespace praveen.One
                 i++;
             }
         }
+
+        /// <summary>
+        /// On press start button
+        /// </summary>
         public void OnPressedStartBtn()
         {
             SceneManager.LoadScene("Game",LoadSceneMode.Single);

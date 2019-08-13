@@ -19,6 +19,9 @@ namespace praveen.One
             SetUI();
         }
 
+        /// <summary>
+        /// Set Game over GUI
+        /// </summary>
         void SetUI()
         {
 
@@ -31,11 +34,17 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Press start button
+        /// </summary>
         public void OnPressedStartBtn()
         {
             SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
 
+        /// <summary>
+        /// Press Home button
+        /// </summary>
         public void OnPressHomeBtn()
         {
             SceneManager.LoadScene("Start", LoadSceneMode.Single);

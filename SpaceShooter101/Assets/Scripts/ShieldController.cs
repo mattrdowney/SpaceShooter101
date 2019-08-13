@@ -23,6 +23,9 @@ namespace praveen.One
             m_ShiledTime = m_CurrentShield.Duration;
         }
 
+        /// <summary>
+        /// Triggers when player hit
+        /// </summary>
         void OnPlayerHit()
         {
             if (m_OnShiledActive)
@@ -70,6 +73,9 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Enabled the available shield
+        /// </summary>
         public void OnEnableShield()
         {
             m_ShiledTime = m_CurrentShield.Duration;

@@ -38,6 +38,10 @@ namespace praveen.One
 
         }
 
+        /// <summary>
+        /// Set player lifes in HUD
+        /// </summary>
+        /// <param name="lifes"></param>
         public void SetPlayerLifes(int lifes)
         {
             switch (lifes)
@@ -54,11 +58,19 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Set player HP
+        /// </summary>
+        /// <param name="value"></param>
         public void SetPlayerHP(float value)
         {
             m_HPSlider.value = value;
         }
 
+        /// <summary>
+        /// Update Shield Progress bar
+        /// </summary>
+        /// <param name="value"></param>
         public void SetShieldActiveProgress(float value)
         {
             m_ShieldSlider.value = (value);

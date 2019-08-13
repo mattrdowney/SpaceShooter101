@@ -19,6 +19,10 @@ namespace praveen.One
             m_CoinPool = new ObjectPool(m_Coin, m_CoinHolder, 10, false, null, null);
         }
 
+        /// <summary>
+        /// Get coin from object pool
+        /// </summary>
+        /// <returns></returns>
         public static GameObject GetCoin()
         {
             GameObject coin = m_CoinPool.Spawn();
@@ -28,6 +32,10 @@ namespace praveen.One
             return coin;
         }
 
+        /// <summary>
+        /// put back into the object pool
+        /// </summary>
+        /// <param name="coin"></param>
         public static void Recycle(GameObject coin)
         {
             m_CoinPool.Recycle(coin);

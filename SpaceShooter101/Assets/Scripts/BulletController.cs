@@ -44,6 +44,11 @@ namespace praveen.One
             m_Missiles      = new ObjectPool(m_Missile, m_MissileHolder, 10, false, null, null);
         }
 
+        /// <summary>
+        /// Get a bullet from object pool
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public GameObject GetBullet(BulletTypes type)
         {
             GameObject bullet = m_LaserBullets.Spawn();
@@ -54,11 +59,19 @@ namespace praveen.One
             return bullet;
         }
 
+        /// <summary>
+        /// Store back in object pool
+        /// </summary>
+        /// <param name="bullet"></param>
         public static void RecycleBullet(GameObject bullet)
         {
             m_LaserBullets.Recycle(bullet);
         }
 
+        /// <summary>
+        /// Get missile bullet from object pool
+        /// </summary>
+        /// <returns></returns>
         public GameObject GetMissile()
         {
             if (GameManager.Instance.OnUseOneMissile())
@@ -73,6 +86,11 @@ namespace praveen.One
             
         }
 
+
+        /// <summary>
+        /// Put the used missile back to object pool
+        /// </summary>
+        /// <param name="missile"></param>
         public static void RecycleMissile(GameObject missile)
         {
             m_Missiles.Recycle(missile);

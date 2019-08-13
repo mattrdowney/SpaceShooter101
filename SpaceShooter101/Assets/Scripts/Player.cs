@@ -48,6 +48,10 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Check the boundries to move
+        /// </summary>
+        /// <param name="newPos"></param>
         void CheckBoundary(Vector3 newPos)
         {
 
@@ -104,6 +108,9 @@ namespace praveen.One
             m_IsShieldActive = state;
         }
 
+        /// <summary>
+        /// Player shoot
+        /// </summary>
         public override void Shoot()
         {
             if (!m_IsGunReloaded)
@@ -125,6 +132,9 @@ namespace praveen.One
             StartCoroutine(ReloadGun());
         }
 
+        /// <summary>
+        /// Player Launches a missile
+        /// </summary>
         private void LaunchMissile()
         {
             if (!m_IsMissileReloaded)
@@ -149,13 +159,20 @@ namespace praveen.One
             StartCoroutine(ReloadRocket());
         }
 
-
+        /// <summary>
+        /// Refrest gun - Rocket launcher
+        /// </summary>
+        /// <returns></returns>
         IEnumerator ReloadRocket()
         {
             yield return new WaitForSeconds(1f);
             m_IsMissileReloaded = true;
         }
 
+        /// <summary>
+        /// Refresh normal gun
+        /// </summary>
+        /// <returns></returns>
         IEnumerator ReloadGun()
         {
             yield return new WaitForSeconds(2f);

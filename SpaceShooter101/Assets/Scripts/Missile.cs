@@ -14,7 +14,9 @@ namespace praveen.One
 
         }
 
-
+        /// <summary>
+        /// Trigger explosion
+        /// </summary>
         void InvokeExplosion()
         {
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(0f, 1f), 5);

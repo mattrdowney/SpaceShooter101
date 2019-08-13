@@ -14,6 +14,10 @@ namespace praveen.One
             Recycle();
         }
 
+
+        /// <summary>
+        /// Recycle bullet and put in to the object pool
+        /// </summary>
         private void Recycle()
         {
             if (this.transform.position.y < GameManager.Instance.GetLowerScreenY() - 4f)

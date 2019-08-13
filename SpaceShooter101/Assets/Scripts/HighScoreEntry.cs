@@ -12,6 +12,12 @@ namespace praveen.One
         [SerializeField] Text m_PlayerName;
         [SerializeField] GameObject[] m_Star;
 
+        /// <summary>
+        /// Initialized the high score entry
+        /// </summary>
+        /// <param name="star"></param>
+        /// <param name="score"></param>
+        /// <param name="name"></param>
         public void SetData(int star, int score, string name)
         {
             m_Score.text = score.ToString();

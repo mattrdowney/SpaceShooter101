@@ -10,13 +10,6 @@ namespace praveen.One
         [SerializeField] Transform m_Gun;
         #endregion
 
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         void FixedUpdate()
         {
             transform.Translate(Vector3.down * Time.deltaTime * m_Speed);
@@ -27,12 +20,18 @@ namespace praveen.One
             Recycle();
         }
 
+        /// <summary>
+        /// Enemy shoot
+        /// </summary>
         public override void Shoot()
         {
             StartCoroutine(EnemyShoot());
         }
 
-
+        /// <summary>
+        /// Enemy shoot
+        /// </summary>
+        /// <returns></returns>
         IEnumerator EnemyShoot()
         {
             for (int i = 0; i < 30; i++)
@@ -58,11 +57,17 @@ namespace praveen.One
 
         }
 
+        /// <summary>
+        /// Get the damage from missile
+        /// </summary>
         public override void MissileDamage()
         {
             DestroyShip();
         }
 
+        /// <summary>
+        /// Destroy this enemy ship
+        /// </summary>
         void DestroyShip()
         {
             CoinController.SpawnCoin(this.transform.position);
@@ -71,6 +76,9 @@ namespace praveen.One
             GameManager.Instance.UpdateEnemiesKilled();
         }
 
+        /// <summary>
+        /// Put back to the object pool
+        /// </summary>
         private void Recycle()
         {
             if (this.transform.position.y < GameManager.Instance.GetLowerScreenY() - 4f)

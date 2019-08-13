@@ -20,13 +20,16 @@ namespace praveen.One
 
         int number = 0;
 
-        // Start is called before the first frame update
         void Start()
         {
             m_EnemyPool = new ObjectPool(m_Enemy, m_EnemyHolder, 30, false, null, CallDeactivate);
             StartCoroutine(SpawnEnemies());
         }
 
+        /// <summary>
+        /// Spawn enemies
+        /// </summary>
+        /// <returns></returns>
         IEnumerator SpawnEnemies()
         {
             for (int i = 0; i < 30; i++)
@@ -48,6 +51,10 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Get spawn point of the screen
+        /// </summary>
+        /// <returns></returns>
         Vector3 GetSpawnPoint()
         {
             float y = GameManager.Instance.GetUpperScreenY() + 3f;
@@ -56,7 +63,10 @@ namespace praveen.One
             return new Vector3(x,y,0);
         }
 
-
+        /// <summary>
+        /// Initialize enemy
+        /// </summary>
+        /// <param name="ship"></param>
         void SetEnemyData(GameObject ship)
         {
             int enemyHP = GetEnemyHitPointByLevel(GameManager.Instance.GetLevel());
@@ -64,11 +74,21 @@ namespace praveen.One
             ship.GetComponent<Enemy>().Init(enemyHP, shipSkin);
         }
 
+        /// <summary>
+        /// Enemy hitpoint level formula
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         int GetEnemyHitPointByLevel(int level)
         {
             return (level * 2) - 1;
         }
 
+
+        /// <summary>
+        /// Enemy put back to the object pool
+        /// </summary>
+        /// <param name="enemy"></param>
         public static void RecycleEnemy(GameObject enemy)
         {
             m_EnemyPool.Recycle(enemy);

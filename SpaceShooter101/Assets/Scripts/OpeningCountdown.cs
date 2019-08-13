@@ -14,6 +14,9 @@ namespace praveen.One
             GetComponent<Animator>().enabled = true;
         }
 
+        /// <summary>
+        /// Triggers at end of the animation
+        /// </summary>
         public void EndOfAnimation()
         {
             m_PauseBtn.SetActive(true);

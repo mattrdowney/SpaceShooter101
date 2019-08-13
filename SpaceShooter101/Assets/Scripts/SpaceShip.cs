@@ -1,5 +1,4 @@
-﻿using praveen.One.util;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace praveen.One
 {
@@ -12,6 +11,11 @@ namespace praveen.One
         public int GunPower;
         public int BulletCount;
 
+        /// <summary>
+        /// Initialize the sapace ship
+        /// </summary>
+        /// <param name="hitpoints"></param>
+        /// <param name="skin"></param>
         public virtual void Init(int hitpoints, Sprite skin)
         {
             HitPoints = hitpoints;
@@ -19,15 +23,9 @@ namespace praveen.One
             Shoot();
         }
 
-        public virtual void MissileDamage()
-        {
+        public virtual void MissileDamage() { }
 
-        }
-
-        public virtual void Shoot()
-        {
-
-        }
+        public virtual void Shoot() { }
     }
 }
 

@@ -13,11 +13,17 @@ namespace praveen.One
             m_Anim = GetComponent<Animator>();
         }
 
+        /// <summary>
+        /// Open the window
+        /// </summary>
         public void PopUp()
         {
             m_Anim.SetTrigger("PopUp");
         }
 
+        /// <summary>
+        /// Click OK and save the name
+        /// </summary>
         public void OnClickOKBtn()
         {
             if(m_NameInput.text.Length > 0)
@@ -27,6 +33,10 @@ namespace praveen.One
             }
         }
 
+
+        /// <summary>
+        /// On click Cancel button
+        /// </summary>
         public void OnClickCancelBtn()
         {
             m_Anim.SetTrigger("OnClose");

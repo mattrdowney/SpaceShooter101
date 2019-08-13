@@ -94,6 +94,9 @@ namespace praveen.One
             Init();
         }
 
+        /// <summary>
+        /// Initialize upgrade data
+        /// </summary>
         void SetUpgradeInfo()
         {
             // clear previous data if exists
@@ -123,6 +126,9 @@ namespace praveen.One
             m_ShieldDict.Add(5, new Shield(60, 20));
         }
 
+        /// <summary>
+        /// Initialized the shop data
+        /// </summary>
         void Init()
         {
             int coinsInHand = GameManager.Instance.GetCoinsInHand();
@@ -181,6 +187,11 @@ namespace praveen.One
 
         }
 
+        /// <summary>
+        /// Get the gun power information text
+        /// </summary>
+        /// <param name="currentLvl"></param>
+        /// <returns></returns>
         string GetGunPowerInfoText(int currentLvl)
         {
             if (currentLvl == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
@@ -193,6 +204,11 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Get Magazine information text
+        /// </summary>
+        /// <param name="currentLvl"></param>
+        /// <returns></returns>
         string GetMagazineInfoText(int currentLvl)
         {
             if (currentLvl == m_MissileMagazine.OrderByDescending(x => x.Key).First().Key)
@@ -204,6 +220,10 @@ namespace praveen.One
                 GetCostString(m_MissileMagazine[currentLvl + 1].Cost);
         }
 
+        /// <summary>
+        /// Get missile capacity information text
+        /// </summary>
+        /// <returns></returns>
         string GetMissileCapacityInfoText()
         {
             if (m_ShooterAmor.MagazineCapacity <= m_ShooterAmor.MissileCount)
@@ -215,6 +235,11 @@ namespace praveen.One
                 GetCostString(m_MissileCost);
         }
 
+        /// <summary>
+        /// Get Shield infomation text
+        /// </summary>
+        /// <param name="currentLvl"></param>
+        /// <returns></returns>
         string GetShieldInfoText(int currentLvl)
         {
             int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetCurrentShield().Duration);
@@ -229,6 +254,11 @@ namespace praveen.One
                 GetCostString(shieldCost);
         }
 
+        /// <summary>
+        /// Get Life information text
+        /// </summary>
+        /// <param name="lives"></param>
+        /// <returns></returns>
         string GetLifeInfoText(int lives)
         {
             if(lives == 3)
@@ -245,7 +275,11 @@ namespace praveen.One
         }
 
         
-
+        /// <summary>
+        /// Get coin availability with formating
+        /// </summary>
+        /// <param name="upgradeCost"></param>
+        /// <returns></returns>
         string GetCostString(int upgradeCost)
         {
             if(upgradeCost <= GameManager.Instance.GetCoinsInHand())
@@ -255,6 +289,11 @@ namespace praveen.One
             return "<color=#fd0000>" + upgradeCost + "</color>";  // red
         }
 
+        /// <summary>
+        /// Get the next gun levels cost
+        /// </summary>
+        /// <param name="curLevel"></param>
+        /// <returns></returns>
         int GetNextGunCost(int curLevel)
         {
             if (curLevel == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
@@ -264,7 +303,11 @@ namespace praveen.One
             return m_GunPowerDict[curLevel + 1];
         }
 
-
+        /// <summary>
+        /// Get missile magazine cost
+        /// </summary>
+        /// <param name="curLevel"></param>
+        /// <returns></returns>
         int GetNextMissileMagazineCost(int curLevel)
         {
             if (curLevel == m_MissileMagazine.OrderByDescending(x => x.Value.Cost).First().Key)
@@ -274,6 +317,11 @@ namespace praveen.One
             return m_MissileMagazine[curLevel + 1].Cost;
         }
 
+        /// <summary>
+        /// Get Shield Cost
+        /// </summary>
+        /// <param name="curLevel"></param>
+        /// <returns></returns>
         int GetNextShieldCost(int curLevel)
         {
             if (curLevel == m_ShieldDict.OrderByDescending(x => x.Value.Cost).First().Key)
@@ -283,22 +331,36 @@ namespace praveen.One
             return m_ShieldDict[curLevel + 1].Cost;
         }
 
+        /// <summary>
+        /// Click the home button
+        /// </summary>
         public void OnClickHomeButton()
         {
             GameManager.Instance.ForceGameOver();
         }
 
+        /// <summary>
+        /// Go back to the game
+        /// </summary>
         public void OnClickBackToGame()
         {
             SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
 
-
+        /// <summary>
+        /// Set buttons intractable or not
+        /// </summary>
+        /// <param name="cost"></param>
+        /// <param name="coinsInHand"></param>
+        /// <returns></returns>
         bool SetButtonIntractable(int cost, int coinsInHand)
         {
             return cost <= coinsInHand;
         }
 
+        /// <summary>
+        /// Click upgrade gun button
+        /// </summary>
         public void OnClickUpgradeGun()
         {
             GameManager.Instance.UpgradeGun((bool sucess)=>
@@ -311,6 +373,10 @@ namespace praveen.One
             
         }
 
+
+        /// <summary>
+        /// Click upgrade magazine button
+        /// </summary>
         public void OnClickUpgrdMagazine()
         {
             GameManager.Instance.UpgradeMagazine((bool sucess) =>
@@ -322,6 +388,9 @@ namespace praveen.One
             });
         }
 
+        /// <summary>
+        /// Onclick buy missile button
+        /// </summary>
         public void OnClickBuyMissile()
         {
             GameManager.Instance.BuyMissile((bool sucess) =>
@@ -333,6 +402,9 @@ namespace praveen.One
             });
         }
 
+        /// <summary>
+        /// On click shiled upgrade button
+        /// </summary>
         public void OnUpgradeShield()
         {
             GameManager.Instance.BuyShield((bool sucess) =>
@@ -344,6 +416,9 @@ namespace praveen.One
             });
         }
 
+        /// <summary>
+        /// On click buy life button
+        /// </summary>
         public void OnClickBuyLife()
         {
             GameManager.Instance.BuyLife(30, (bool sucess) =>
@@ -357,7 +432,11 @@ namespace praveen.One
             });
         }
 
-
+        /// <summary>
+        /// Get the gun upgrade cost
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static int GetGunUpgradeCost(int lvl)
         {
             if (m_GunPowerDict.ContainsKey(lvl))
@@ -369,6 +448,11 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Get Missile magazine upgrade cost
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static int GetMissileMagUpgrdCost(int lvl)
         {
             if (m_MissileMagazine.ContainsKey(lvl))
@@ -380,11 +464,20 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Get missile cost
+        /// </summary>
+        /// <returns></returns>
         public static int GetMissileCost()
         {
             return m_MissileCost;
         }
 
+        /// <summary>
+        /// Get next gun level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static int GetNextGunLevel(int lvl)
         {
             if (lvl == m_GunPowerDict.OrderByDescending(x => x.Key).First().Key)
@@ -394,6 +487,11 @@ namespace praveen.One
             return lvl + 1;
         }
 
+        /// <summary>
+        /// Get next missile magazine level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static int GetNextMissileMagLvl(int lvl)
         {
             if (lvl == m_MissileMagazine.OrderByDescending(x => x.Key).First().Key)
@@ -403,6 +501,11 @@ namespace praveen.One
             return lvl + 1;
         }
 
+        /// <summary>
+        /// Get Magazine capacity by level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static int GetMagazineCapacityByLvl(int lvl)
         {
             if (m_MissileMagazine.ContainsKey(lvl))
@@ -413,11 +516,21 @@ namespace praveen.One
             return -1;
         }
 
+        /// <summary>
+        /// Get Current shiled level by duration
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         public static int GetCurrentShieldLevel(int duration)
         {
             return m_ShieldDict.FirstOrDefault(x => x.Value.Duration == duration).Key;
         }
 
+        /// <summary>
+        /// Get next shield data by level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
         public static Shield GetNextShieldDataByLvl(int lvl)
         {
             if (lvl == m_ShieldDict.OrderByDescending(x => x.Key).First().Key)

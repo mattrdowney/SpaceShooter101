@@ -130,7 +130,9 @@ namespace praveen.One
             return dummyList;
         }
 
-
+        /// <summary>
+        /// Start new game session or continue previous session
+        /// </summary>
         public void StartNewGameOrContinue()
         {
             if (m_Session.IsActive)
@@ -149,6 +151,9 @@ namespace praveen.One
             SessionManager.Instance.StartSession();
         }
 
+        /// <summary>
+        /// Update Heads on Display
+        /// </summary>
         void UpdateHUD()
         {
             HudController.Instance.SetPlayerLifes(m_Session.Lifes);
@@ -169,18 +174,29 @@ namespace praveen.One
             PlayerPrefs.Save();
         }
 
+        /// <summary>
+        /// Adds score
+        /// </summary>
+        /// <param name="score"></param>
         public void AddScore(int score)
         {
             m_Session.Score += score;
             HudController.Instance.SetScore(m_Session.Score);
         }
 
+        /// <summary>
+        /// Update Enemy kill count
+        /// </summary>
         public void UpdateEnemiesKilled()
         {
             m_Session.EnemiesKilled += 1;
             HudController.Instance.EnemiesKilled(m_Session.EnemiesKilled);
         }
 
+        /// <summary>
+        /// Triggerd when player got hit
+        /// </summary>
+        /// <param name="damage"></param>
         public void OnPlayerHit(float damage)
         {
             m_Session.HP -= damage;
@@ -201,6 +217,10 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Get the current session data
+        /// </summary>
+        /// <returns></returns>
         public ShooterSession GetCurrentSession()
         {
             return m_Session;
@@ -251,7 +271,10 @@ namespace praveen.One
             return Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0)).y;
         }
 
-
+        /// <summary>
+        /// Get the current shield data
+        /// </summary>
+        /// <returns></returns>
         public Shield GetCurrentShield()
         {
             return m_ShooterData.CurrentShield;
@@ -284,6 +307,9 @@ namespace praveen.One
             return m_Session.Lifes;
         }
 
+        /// <summary>
+        /// Quit the gameplay before game over
+        /// </summary>
         public void ForceGameOver()
         {
             m_Session.IsActive = false;
@@ -291,7 +317,9 @@ namespace praveen.One
             SceneManager.LoadScene("Start", LoadSceneMode.Single);
         }
 
-
+        /// <summary>
+        /// Game over
+        /// </summary>
         private void GameOver()
         {
             m_Session.IsActive = false;
@@ -302,6 +330,9 @@ namespace praveen.One
 
         }
 
+        /// <summary>
+        /// Loads the shop scene after each round
+        /// </summary>
         public void LoadShopScene()
         {
             SceneManager.LoadScene("ShopMenu", LoadSceneMode.Single);
@@ -326,6 +357,10 @@ namespace praveen.One
             return m_ShooterData.CoinsInHand;
         }
 
+        /// <summary>
+        /// Upgrade player gun
+        /// </summary>
+        /// <param name="callback"></param>
         public void UpgradeGun(System.Action<bool> callback)
         {
 
@@ -345,6 +380,10 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Upgrade Rocket Launcher / Magazine
+        /// </summary>
+        /// <param name="callback"></param>
         public void UpgradeMagazine(System.Action<bool> callback)
         {
             int nextMagLevel = Shop.GetNextMissileMagLvl(m_ShooterData.Amor.MissileMagazineLvl);
@@ -363,6 +402,10 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Buy Missile using coins
+        /// </summary>
+        /// <param name="callback"></param>
         public void BuyMissile(System.Action<bool> callback)
         {
             int mcost = Shop.GetMissileCost();
@@ -375,7 +418,10 @@ namespace praveen.One
             }
         }
 
-
+        /// <summary>
+        /// Buy shield using coins
+        /// </summary>
+        /// <param name="callback"></param>
         public void BuyShield(System.Action<bool> callback)
         {
             int currentLvl = Shop.GetCurrentShieldLevel(m_ShooterData.CurrentShield.Duration);
@@ -394,6 +440,11 @@ namespace praveen.One
             
         }
 
+        /// <summary>
+        /// Buy life using coins
+        /// </summary>
+        /// <param name="LifeCost"></param>
+        /// <param name="callback"></param>
         public void BuyLife(int LifeCost, System.Action<bool> callback)
         {
             if (m_Session.Lifes == 3)
@@ -408,6 +459,10 @@ namespace praveen.One
             }
         }
 
+        /// <summary>
+        /// Keep track of missiles in hand
+        /// </summary>
+        /// <returns></returns>
         public bool OnUseOneMissile()
         {
             if (m_ShooterData.Amor.MissileCount > 0)
@@ -439,6 +494,11 @@ namespace praveen.One
 
         }
 
+        /// <summary>
+        /// Add new entry in to high score table
+        /// </summary>
+        /// <param name="score"></param>
+        /// <param name="name"></param>
         public void UpdateHiScoreTable(int score, string name)
         {
             m_ShooterData.m_HighScoreTable.Add(new HighScore(score, name));

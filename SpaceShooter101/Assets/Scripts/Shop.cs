@@ -261,15 +261,15 @@ namespace praveen.One
         /// <returns></returns>
         string GetLifeInfoText(int lives)
         {
-            if(lives == 3)
-            {
-                m_LifeBtn.interactable = false;
-                return "<color=#fd0000>Has Max Life count!</color>";
-            }
-            else if(m_BoughtLife)
+            if (m_BoughtLife)
             {
                 m_LifeBtn.interactable = false;
                 return "<color=#fd0000>Already bought!</color>";
+            }
+            if (lives == 3)
+            {
+                m_LifeBtn.interactable = false;
+                return "<color=#fd0000>Has Max Life count!</color>";
             }
             return "<color=#cfd2d4> Buy One Life for : </color>" + GetCostString(m_LifeCost);
         }
@@ -425,9 +425,10 @@ namespace praveen.One
             {
                 if (sucess)
                 {
-                    Init();
+                    
                     m_LifeBtn.interactable = false;
                     m_BoughtLife = true;
+                    Init();
                 }
             });
         }

@@ -50,9 +50,9 @@ namespace praveen.One
 
     public class Shop : MonoBehaviour
     {
-        static Dictionary<int, int> m_GunPowerDict                   = new Dictionary<int, int>();
-        static Dictionary<int, MissileMagazine> m_MissileMagazine    = new Dictionary<int, MissileMagazine>();
-        static Dictionary<int, Shield> m_ShieldDict                  = new Dictionary<int, Shield>();
+        //static Dictionary<int, int> m_GunPowerDict                   = new Dictionary<int, int>();
+        //static Dictionary<int, MissileMagazine> m_MissileMagazine    = new Dictionary<int, MissileMagazine>();
+        //static Dictionary<int, Shield> m_ShieldDict                  = new Dictionary<int, Shield>();
 
         ShooterAmor m_ShooterAmor;
 
@@ -100,30 +100,30 @@ namespace praveen.One
         void SetUpgradeInfo()
         {
             // clear previous data if exists
-            m_GunPowerDict.Clear();
-            m_MissileMagazine.Clear();
-            m_ShieldDict.Clear();
+            //m_GunPowerDict.Clear();
+            //m_MissileMagazine.Clear();
+            //m_ShieldDict.Clear();
 
 
-            m_GunPowerDict.Add(1, 0);
-            m_GunPowerDict.Add(2, 10);
-            m_GunPowerDict.Add(3, 15);
-            m_GunPowerDict.Add(4, 27);
-            m_GunPowerDict.Add(5, 50);
+            //m_GunPowerDict.Add(1, 0);
+            //m_GunPowerDict.Add(2, 10);
+            //m_GunPowerDict.Add(3, 15);
+            //m_GunPowerDict.Add(4, 27);
+            //m_GunPowerDict.Add(5, 50);
 
-                             // Level                 cost capacity
-            m_MissileMagazine.Add(1, new MissileMagazine(0, 1));
-            m_MissileMagazine.Add(2, new MissileMagazine(20, 3));
-            m_MissileMagazine.Add(3, new MissileMagazine(25, 7));
-            m_MissileMagazine.Add(4, new MissileMagazine(40, 10));
-            m_MissileMagazine.Add(5, new MissileMagazine(60, 20));
+            //                 // Level                 cost capacity
+            //m_MissileMagazine.Add(1, new MissileMagazine(0, 1));
+            //m_MissileMagazine.Add(2, new MissileMagazine(20, 3));
+            //m_MissileMagazine.Add(3, new MissileMagazine(25, 7));
+            //m_MissileMagazine.Add(4, new MissileMagazine(40, 10));
+            //m_MissileMagazine.Add(5, new MissileMagazine(60, 20));
 
-                        // Level       cost  seconds
-            m_ShieldDict.Add(1, new Shield(0, 3));
-            m_ShieldDict.Add(2, new Shield(20, 7));
-            m_ShieldDict.Add(3, new Shield(25, 12));
-            m_ShieldDict.Add(4, new Shield(40, 10));
-            m_ShieldDict.Add(5, new Shield(60, 20));
+            //            // Level       cost  seconds
+            //m_ShieldDict.Add(1, new Shield(0, 3));
+            //m_ShieldDict.Add(2, new Shield(20, 7));
+            //m_ShieldDict.Add(3, new Shield(25, 12));
+            //m_ShieldDict.Add(4, new Shield(40, 10));
+            //m_ShieldDict.Add(5, new Shield(60, 20));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace praveen.One
             //////
             // Set Gun Power Related Stuff
             //////
-            m_GunPowerSlider.maxValue   = m_GunPowerDict.Count();
+            m_GunPowerSlider.maxValue   = DataBank.GetGunPowerData().Count();
             m_GunPowerSlider.value      = m_ShooterAmor.GunLevel;
             m_GunUpgradeBtn.interactable = SetButtonIntractable(nextGunPowerCost, coinsInHand);
             m_GunPowerInfo.text = GetGunPowerInfoText(m_ShooterAmor.GunLevel);
@@ -151,7 +151,7 @@ namespace praveen.One
             //////
             // Set Missile Magazine Related Stuff
             //////
-            m_MagazineSlider.maxValue   = m_MissileMagazine.Count();
+            m_MagazineSlider.maxValue   = DataBank.GetMissileMagazineData().Count();
             m_MagazineSlider.value = m_ShooterAmor.MissileMagazineLvl;
             m_MagazineUpgrdBtn.interactable = SetButtonIntractable(nextMissileMagCost,coinsInHand);
             m_MagazineInfo.text = GetMagazineInfoText(m_ShooterAmor.MissileMagazineLvl);
@@ -173,7 +173,7 @@ namespace praveen.One
             //////
             int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetCurrentShield().Duration);
             int shieldCost = GetNextShieldCost(shieldLvl);
-            m_ShiledSlider.maxValue = m_ShieldDict.Count();
+            m_ShiledSlider.maxValue = DataBank.GetShieldData().Count();
             m_ShiledSlider.value = shieldLvl;
             m_ShieldInfo.text = GetShieldInfoText(shieldLvl);
             m_ShieldBtn.interactable = SetButtonIntractable(shieldCost, coinsInHand);
@@ -194,13 +194,13 @@ namespace praveen.One
         /// <returns></returns>
         string GetGunPowerInfoText(int currentLvl)
         {
-            if (currentLvl == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
+            if (currentLvl == DataBank.GetGunPowerData().OrderByDescending(x => x.Value).First().Key)
             {
                 m_GunUpgradeBtn.interactable = false;
                 return "<color=#fd0000>Already Upgraded to MAX level</color>";
             }
             return "<color=#cfd2d4> Upgrade to Lvel " + (currentLvl + 1) + " for: </color>"+
-                GetCostString(m_GunPowerDict[currentLvl + 1]);
+                GetCostString(DataBank.GetGunPowerData()[currentLvl + 1]);
             
         }
 
@@ -211,13 +211,13 @@ namespace praveen.One
         /// <returns></returns>
         string GetMagazineInfoText(int currentLvl)
         {
-            if (currentLvl == m_MissileMagazine.OrderByDescending(x => x.Key).First().Key)
+            if (currentLvl == DataBank.GetMissileMagazineData().OrderByDescending(x => x.Key).First().Key)
             {
                 m_MagazineUpgrdBtn.interactable = false;
                 return "<color=#fd0000>Already Upgraded to MAX level</color>";
             }
             return "<color=#cfd2d4> Upgrade to Lvel " + (currentLvl + 1) + " for: </color>" +
-                GetCostString(m_MissileMagazine[currentLvl + 1].Cost);
+                GetCostString(DataBank.GetMissileMagazineData()[currentLvl + 1].Cost);
         }
 
         /// <summary>
@@ -245,12 +245,12 @@ namespace praveen.One
             int shieldLvl = GetCurrentShieldLevel(GameManager.Instance.GetCurrentShield().Duration);
             int shieldCost = GetNextShieldCost(shieldLvl);
 
-            if (currentLvl == m_ShieldDict.OrderByDescending(x => x.Key).First().Key)
+            if (currentLvl == DataBank.GetShieldData().OrderByDescending(x => x.Key).First().Key)
             {
                 m_ShieldBtn.interactable = false;
                 return "<color=#fd0000>Already Upgraded to MAX level</color>";
             }
-            return "<color=#cfd2d4> Upgrade to " + m_ShieldDict[(currentLvl + 1)].Duration + " sec. for :</color>" +
+            return "<color=#cfd2d4> Upgrade to " + DataBank.GetShieldData()[(currentLvl + 1)].Duration + " sec. for :</color>" +
                 GetCostString(shieldCost);
         }
 
@@ -296,11 +296,11 @@ namespace praveen.One
         /// <returns></returns>
         int GetNextGunCost(int curLevel)
         {
-            if (curLevel == m_GunPowerDict.OrderByDescending(x => x.Value).First().Key)
+            if (curLevel == DataBank.GetGunPowerData().OrderByDescending(x => x.Value).First().Key)
             {
                 return -1;
             }
-            return m_GunPowerDict[curLevel + 1];
+            return DataBank.GetGunPowerData()[curLevel + 1];
         }
 
         /// <summary>
@@ -310,11 +310,11 @@ namespace praveen.One
         /// <returns></returns>
         int GetNextMissileMagazineCost(int curLevel)
         {
-            if (curLevel == m_MissileMagazine.OrderByDescending(x => x.Value.Cost).First().Key)
+            if (curLevel == DataBank.GetMissileMagazineData().OrderByDescending(x => x.Value.Cost).First().Key)
             {
                 return -1;
             }
-            return m_MissileMagazine[curLevel + 1].Cost;
+            return DataBank.GetMissileMagazineData()[curLevel + 1].Cost;
         }
 
         /// <summary>
@@ -324,11 +324,11 @@ namespace praveen.One
         /// <returns></returns>
         int GetNextShieldCost(int curLevel)
         {
-            if (curLevel == m_ShieldDict.OrderByDescending(x => x.Value.Cost).First().Key)
+            if (curLevel == DataBank.GetShieldData().OrderByDescending(x => x.Value.Cost).First().Key)
             {
                 return -1;
             }
-            return m_ShieldDict[curLevel + 1].Cost;
+            return DataBank.GetShieldData()[curLevel + 1].Cost;
         }
 
         /// <summary>
@@ -440,9 +440,9 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetGunUpgradeCost(int lvl)
         {
-            if (m_GunPowerDict.ContainsKey(lvl))
+            if (DataBank.GetGunPowerData().ContainsKey(lvl))
             {
-                return m_GunPowerDict[lvl];
+                return DataBank.GetGunPowerData()[lvl];
             }
 
             return -1;
@@ -456,9 +456,9 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetMissileMagUpgrdCost(int lvl)
         {
-            if (m_MissileMagazine.ContainsKey(lvl))
+            if (DataBank.GetMissileMagazineData().ContainsKey(lvl))
             {
-                return m_MissileMagazine[lvl].Cost;
+                return DataBank.GetMissileMagazineData()[lvl].Cost;
             }
 
             return -1;
@@ -481,7 +481,7 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetNextGunLevel(int lvl)
         {
-            if (lvl == m_GunPowerDict.OrderByDescending(x => x.Key).First().Key)
+            if (lvl == DataBank.GetGunPowerData().OrderByDescending(x => x.Key).First().Key)
             {
                 return -1;
             }
@@ -495,7 +495,7 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetNextMissileMagLvl(int lvl)
         {
-            if (lvl == m_MissileMagazine.OrderByDescending(x => x.Key).First().Key)
+            if (lvl == DataBank.GetMissileMagazineData().OrderByDescending(x => x.Key).First().Key)
             {
                 return -1;
             }
@@ -509,9 +509,9 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetMagazineCapacityByLvl(int lvl)
         {
-            if (m_MissileMagazine.ContainsKey(lvl))
+            if (DataBank.GetMissileMagazineData().ContainsKey(lvl))
             {
-                return m_MissileMagazine[lvl].Capacity;
+                return DataBank.GetMissileMagazineData()[lvl].Capacity;
             }
 
             return -1;
@@ -524,7 +524,7 @@ namespace praveen.One
         /// <returns></returns>
         public static int GetCurrentShieldLevel(int duration)
         {
-            return m_ShieldDict.FirstOrDefault(x => x.Value.Duration == duration).Key;
+            return DataBank.GetShieldData().FirstOrDefault(x => x.Value.Duration == duration).Key;
         }
 
         /// <summary>
@@ -534,11 +534,11 @@ namespace praveen.One
         /// <returns></returns>
         public static Shield GetNextShieldDataByLvl(int lvl)
         {
-            if (lvl == m_ShieldDict.OrderByDescending(x => x.Key).First().Key)
+            if (lvl == DataBank.GetShieldData().OrderByDescending(x => x.Key).First().Key)
             {
                 return new Shield(-1,-1);
             }
-            return m_ShieldDict[lvl + 1];
+            return DataBank.GetShieldData()[lvl + 1];
         }
     }
 }

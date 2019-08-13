@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace praveen.One
 {
-    public enum BulletTypes
+    public enum BulletOwner
     {
         player,
         enemy,
-        coin
+        none
     }
 
     public class BulletController : MonoBehaviour
@@ -49,7 +49,7 @@ namespace praveen.One
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public GameObject GetBullet(BulletTypes type)
+        public GameObject GetBullet(BulletOwner type)
         {
             GameObject bullet = m_LaserBullets.Spawn();
             bullet.transform.rotation = Quaternion.identity;

@@ -65,27 +65,6 @@ namespace praveen.One
             m_PlayerTransform.position = Camera.main.ViewportToWorldPoint(camViewPoint);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (m_IsShieldActive)
-                return;
-
-            if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy")
-            {
-                GameManager.Instance.OnPlayerHit(10);
-                if (OnPlayerHit != null)
-                {
-                    OnPlayerHit();
-                }
-
-                if (collision.gameObject.tag == "EnemyBullet"){
-                    BulletController.RecycleBullet(collision.gameObject);
-                }
-                
-            }
-            
-        }
-
         private void Update()
         {
             if (Input.GetMouseButton(0))
@@ -121,12 +100,13 @@ namespace praveen.One
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             m_Gun.transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
 
-            GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.player);
+            GameObject bullet = BulletController.Instance.GetBullet(BulletOwner.player);
             bullet.transform.SetParent(m_Gun);
             bullet.transform.localPosition = Vector3.zero;
             bullet.transform.localRotation = Quaternion.identity;
             bullet.layer = 10;
             bullet.tag = "PlayerBullet";
+            bullet.GetComponent<Bullet>().Program(10, 10, BulletOwner.player);
             bullet.SetActive(true);
 
             StartCoroutine(ReloadGun());
@@ -177,6 +157,24 @@ namespace praveen.One
         {
             yield return new WaitForSeconds(2f);
             m_IsGunReloaded = true;
+        }
+
+
+        public override void Damage(int damage)
+        {
+            if (m_IsShieldActive)
+                return;
+
+            GameManager.Instance.OnPlayerHit(10);
+            if (OnPlayerHit != null)
+            {
+                OnPlayerHit();
+            }
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
         }
 
     }

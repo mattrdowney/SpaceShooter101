@@ -26,6 +26,18 @@ namespace praveen.One
         public virtual void MissileDamage() { }
 
         public virtual void Shoot() { }
+
+        public virtual void Damage(int damage)
+        {
+            HitPoints -= damage;
+
+            if (HitPoints <= 0)
+            {
+                Destroy();
+            }
+        }
+
+        public virtual void Destroy() { }
     }
 }
 

@@ -36,25 +36,16 @@ namespace praveen.One
         {
             for (int i = 0; i < 30; i++)
             {
-                GameObject bullet = BulletController.Instance.GetBullet(BulletTypes.enemy);
+                GameObject bullet = BulletController.Instance.GetBullet(BulletOwner.enemy);
                 bullet.transform.SetParent(m_Gun);
                 bullet.transform.localPosition = Vector3.zero;
                 bullet.transform.localRotation = Quaternion.identity;
                 bullet.layer = 11;
                 bullet.tag = "EnemyBullet";
+                bullet.GetComponent<Bullet>().Program(10, 10, BulletOwner.enemy);
                 bullet.SetActive(true);
                 yield return new WaitForSeconds(1);
             }
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "PlayerBullet")
-            {
-                BulletController.RecycleBullet(collision.gameObject);
-                DestroyShip();
-            }
-
         }
 
         /// <summary>
@@ -62,13 +53,18 @@ namespace praveen.One
         /// </summary>
         public override void MissileDamage()
         {
-            DestroyShip();
+            Destroy();
+        }
+
+        public override void Damage(int damage)
+        {
+            base.Damage(damage);
         }
 
         /// <summary>
-        /// Destroy this enemy ship
+        /// Destroies the ship
         /// </summary>
-        void DestroyShip()
+        public override void Destroy()
         {
             CoinController.SpawnCoin(this.transform.position);
             EnemyController.RecycleEnemy(gameObject);

@@ -9,7 +9,7 @@ namespace praveen.One
         [SerializeField] Text m_HighScoreText;
         [SerializeField] Text m_Score;
         [SerializeField] Text m_Coins;
-        [SerializeField] GameObject m_NewHighScore;
+        [SerializeField] HighScoreWindow m_HighScoreWindow;
 
         ShooterSession m_LastSession;
 
@@ -21,21 +21,14 @@ namespace praveen.One
 
         void SetUI()
         {
-            m_NewHighScore.gameObject.SetActive(false);
-
 
             m_Score.text = m_LastSession.Score.ToString();
             m_Coins.text = GameManager.Instance.GetCoinsInHand().ToString();
 
             if (GameManager.Instance.IsNewRecord(m_LastSession.Score))
             {
-                GameManager.Instance.UpdateHiScoreTable(m_LastSession.Score, "Praveen");
+                m_HighScoreWindow.PopUp();
             }
-
-            //if (goUI.isRecord)
-            //{
-            //    m_NewHighScore.SetActive(true);
-            //}
         }
 
         public void OnPressedStartBtn()

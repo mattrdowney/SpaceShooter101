@@ -17,6 +17,7 @@ namespace praveen.One
         #region SerializedFields
         [SerializeField] GameObject m_Player;
         [SerializeField] GameObject m_ScriptRef;
+        [SerializeField] GameObject m_OpemomgCountdown;
         #endregion
 
         #region PrivateFields
@@ -42,9 +43,15 @@ namespace praveen.One
 
         public void StartSession()
         {
-            // countdown animation
+            m_OpemomgCountdown.SetActive(true);
+        }
+
+
+        public void StartGame()
+        {
             m_Player.gameObject.SetActive(true);
             m_ScriptRef.gameObject.SetActive(true);
+            //m_OpemomgCountdown.SetActive(false);
         }
 
     }

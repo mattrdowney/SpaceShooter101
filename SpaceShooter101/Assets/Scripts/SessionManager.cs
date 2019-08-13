@@ -21,6 +21,8 @@ namespace praveen.One
         #endregion
 
         #region PrivateFields
+        bool IsGameStarted;
+        float m_TimeLeft = 60f;
         #endregion
 
         private void Awake()
@@ -37,6 +39,7 @@ namespace praveen.One
 
         private void Start()
         {
+            IsGameStarted = false;
             GameManager.Instance.StartNewGameOrContinue();
         }
 
@@ -55,7 +58,21 @@ namespace praveen.One
         {
             m_Player.gameObject.SetActive(true);
             m_ScriptRef.gameObject.SetActive(true);
-            //m_OpemomgCountdown.SetActive(false);
+            IsGameStarted = true;
+        }
+
+        private void Update()
+        {
+            if (!IsGameStarted)
+                return;
+
+            m_TimeLeft -= Time.deltaTime;
+            if (m_TimeLeft < 0)
+            {
+                GameManager.Instance.LoadShopScene();
+            }
+
+            HudController.Instance.SetCountdownDisplay((int)m_TimeLeft);
         }
 
     }

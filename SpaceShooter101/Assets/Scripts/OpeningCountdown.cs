@@ -6,7 +6,7 @@ namespace praveen.One
 {
     public class OpeningCountdown : MonoBehaviour
     {
-        [SerializeField] GameObject m_PauseBtn;
+        [SerializeField] GameObject[] m_ToActivated;
 
         // Start is called before the first frame update
         void Start()
@@ -19,7 +19,10 @@ namespace praveen.One
         /// </summary>
         public void EndOfAnimation()
         {
-            m_PauseBtn.SetActive(true);
+            foreach (var go in m_ToActivated)
+            {
+                go.SetActive(true);
+            }
             SessionManager.Instance.StartGame();
         }
     }

@@ -47,7 +47,7 @@ namespace praveen.One
             number ++;
             if(number > 29)
             {
-                GameManager.Instance.LoadShopScene();
+                //GameManager.Instance.LoadShopScene();
             }
         }
 

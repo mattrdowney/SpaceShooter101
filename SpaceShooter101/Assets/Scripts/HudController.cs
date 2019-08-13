@@ -29,6 +29,7 @@ namespace praveen.One
         [SerializeField] Text m_RocketsLeft;
         [SerializeField] Image[] m_HelthIcons;
         [SerializeField] Text m_EnemiesKilled;
+        [SerializeField] Text m_CountdownDisplay;
         #endregion
 
 
@@ -111,6 +112,15 @@ namespace praveen.One
         public void SetMissileData(int count, int capacity)
         {
             m_RocketsLeft.text = count.ToString() +"/"+ capacity.ToString();
+        }
+
+        /// <summary>
+        /// Display countdown timer in game
+        /// </summary>
+        /// <param name="timeLeft"></param>
+        public void SetCountdownDisplay(int timeLeft)
+        {
+            m_CountdownDisplay.text = timeLeft.ToString();
         }
 
 

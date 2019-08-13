@@ -4,22 +4,6 @@ using UnityEngine.UI;
 
 namespace praveen.One
 {
-    public struct GameOverUI
-    {
-        public int Score;
-        public int HighScore;
-        public int Coins;
-        public bool isRecord;
-
-        public GameOverUI(int score, int highScore, int coins, bool newRecord)
-        {
-            this.Score      = score;
-            this.HighScore  = highScore;
-            this.Coins      = coins;
-            this.isRecord   = newRecord;
-        }
-    }
-
     public class GameOver : MonoBehaviour
     {
         [SerializeField] Text m_HighScoreText;
@@ -27,8 +11,11 @@ namespace praveen.One
         [SerializeField] Text m_Coins;
         [SerializeField] GameObject m_NewHighScore;
 
+        ShooterSession m_LastSession;
+
         void Start()
         {
+            m_LastSession = GameManager.Instance.GetCurrentSession();
             SetUI();
         }
 
@@ -36,15 +23,19 @@ namespace praveen.One
         {
             m_NewHighScore.gameObject.SetActive(false);
 
-            GameOverUI goUI = GameManager.Instance.GetGameOverUI();
-            m_HighScoreText.text = goUI.HighScore.ToString();
-            m_Score.text = goUI.Score.ToString();
-            m_Coins.text = goUI.Coins.ToString();
 
-            if (goUI.isRecord)
+            m_Score.text = m_LastSession.Score.ToString();
+            m_Coins.text = GameManager.Instance.GetCoinsInHand().ToString();
+
+            if (GameManager.Instance.IsNewRecord(m_LastSession.Score))
             {
-                m_NewHighScore.SetActive(true);
+                GameManager.Instance.UpdateHiScoreTable(m_LastSession.Score, "Praveen");
             }
+
+            //if (goUI.isRecord)
+            //{
+            //    m_NewHighScore.SetActive(true);
+            //}
         }
 
         public void OnPressedStartBtn()

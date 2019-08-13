@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,19 +27,32 @@ namespace praveen.One
     }
 
     [System.Serializable]
+    public struct HighScore
+    {
+        public int Score;
+        public string Name;
+
+        public HighScore(int score, string name)
+        {
+            this.Score = score;
+            this.Name = name;
+        }
+    }
+
+    [System.Serializable]
     public struct ShooterData
     {
-        public int HighScore;
         public int CoinsInHand;
         public ShooterAmor Amor;
         public Shield CurrentShield;
+        public List<HighScore> m_HighScoreTable;
 
-        public ShooterData(int highScore, int coins, ShooterAmor amor, Shield shield)
+        public ShooterData(int coins, ShooterAmor amor, Shield shield, List<HighScore> highScoreTable)
         {
-            this.HighScore = highScore;
             this.CoinsInHand = coins;
             this.Amor = amor;
             this.CurrentShield = shield;
+            this.m_HighScoreTable = highScoreTable;
         }
     }
 
@@ -59,7 +73,6 @@ namespace praveen.One
         #endregion
 
         #region PrivateFields
-        bool m_IsNewRecord;
         ShooterData m_ShooterData;
         ShooterSession m_Session;
         #endregion
@@ -92,7 +105,7 @@ namespace praveen.One
             {
                 ShooterAmor amor    = new ShooterAmor(1, 1, 1, 1);
                 Shield shield       = new Shield(0, 3);
-                ShooterData data    = new ShooterData(0, 0, amor, shield);
+                ShooterData data    = new ShooterData(0, amor, shield, LoadDummyData());
 
                 m_ShooterData = data;
             }
@@ -101,6 +114,20 @@ namespace praveen.One
                 m_ShooterData = JsonUtility.FromJson<ShooterData>(shooterData);
             }
 
+        }
+
+        /// <summary>
+        /// Demonostration purpose only!
+        /// </summary>
+        /// <returns></returns>
+        List<HighScore> LoadDummyData(){
+            List<HighScore> dummyList = new List<HighScore>();
+            dummyList.Add(new HighScore(9, "John"));
+            dummyList.Add(new HighScore(8, "Tim"));
+            dummyList.Add(new HighScore(6, "Sara"));
+            dummyList.Add(new HighScore(4, "Mark"));
+            dummyList.Add(new HighScore(1, "Aura"));
+            return dummyList;
         }
 
 
@@ -174,6 +201,11 @@ namespace praveen.One
             }
         }
 
+        public ShooterSession GetCurrentSession()
+        {
+            return m_Session;
+        }
+
         /// <summary>
         /// Returns Level
         /// </summary>
@@ -238,9 +270,9 @@ namespace praveen.One
         /// Return the high Score
         /// </summary>
         /// <returns></returns>
-        public int GetHighScore()
+        public List<HighScore> GetHighScore()
         {
-            return m_ShooterData.HighScore;
+            return m_ShooterData.m_HighScoreTable;
         }
 
         /// <summary>
@@ -260,14 +292,6 @@ namespace praveen.One
 
         private void GameOver()
         {
-           m_IsNewRecord = false;
-
-           if(m_Session.Score > m_ShooterData.HighScore)
-           {
-                m_IsNewRecord           = true;
-                m_ShooterData.HighScore = m_Session.Score;
-           }
-
             m_Session.IsActive = false;
 
             SaveData();
@@ -279,11 +303,6 @@ namespace praveen.One
         public void LoadShopScene()
         {
             SceneManager.LoadScene("ShopMenu", LoadSceneMode.Single);
-        }
-
-        public GameOverUI GetGameOverUI()
-        {
-            return new GameOverUI(m_Session.Score, m_ShooterData.HighScore, m_ShooterData.CoinsInHand, m_IsNewRecord);
         }
 
         /// <summary>
@@ -396,6 +415,36 @@ namespace praveen.One
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Check its a record or not
+        /// </summary>
+        /// <param name="newScore"></param>
+        /// <returns></returns>
+        public bool IsNewRecord(int newScore)
+        {
+            if(m_ShooterData.m_HighScoreTable.Count < 6)
+            {
+                return true;
+            }
+
+            if (m_ShooterData.m_HighScoreTable[m_ShooterData.m_HighScoreTable.Count - 1].Score < newScore)
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+        public void UpdateHiScoreTable(int score, string name)
+        {
+            m_ShooterData.m_HighScoreTable.Add(new HighScore(score, name));
+            // sort and create new list
+            List<HighScore> newTable = m_ShooterData.m_HighScoreTable.OrderByDescending(i => i.Score).Take(5).ToList();
+            m_ShooterData.m_HighScoreTable = newTable;
+
+            SaveData();
         }
     }
 }

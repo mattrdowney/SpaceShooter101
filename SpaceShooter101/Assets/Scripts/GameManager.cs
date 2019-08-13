@@ -286,7 +286,9 @@ namespace praveen.One
 
         public void ForceGameOver()
         {
-            GameOver();
+            m_Session.IsActive = false;
+            SaveData();
+            SceneManager.LoadScene("Start", LoadSceneMode.Single);
         }
 
 

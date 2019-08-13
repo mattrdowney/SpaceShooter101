@@ -286,7 +286,6 @@ namespace praveen.One
         public void OnClickHomeButton()
         {
             GameManager.Instance.ForceGameOver();
-            SceneManager.LoadScene("Start", LoadSceneMode.Single);
         }
 
         public void OnClickBackToGame()

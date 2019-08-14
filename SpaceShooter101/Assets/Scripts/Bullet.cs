@@ -36,10 +36,21 @@ namespace praveen.One
         /// </summary>
         private void Recycle()
         {
-            if (this.transform.position.y < GameManager.Instance.GetLowerScreenY() - 4f)
+            if (Owner == BulletOwner.enemy)
             {
-                BulletController.RecycleBullet(this.gameObject);
+                if (this.transform.position.y < GameManager.Instance.GetLowerScreenY() - 4f)
+                {
+                    BulletController.RecycleBullet(this.gameObject);
+                }
             }
+            else
+            {
+                if (this.transform.position.y > GameManager.Instance.GetUpperScreenY() + 4f)
+                {
+                    BulletController.RecycleBullet(this.gameObject);
+                }
+            }
+
         }
 
 

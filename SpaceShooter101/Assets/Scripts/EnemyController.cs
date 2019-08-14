@@ -24,6 +24,7 @@ namespace praveen.One
 
         void Start()
         {
+            
             m_EnemyCountPerSession = GetEnemyWaveCountByLevel(GameManager.Instance.GetLevel());
             m_EnemySpawnDelay = GetEnemySpawnDelayByLevel(GameManager.Instance.GetLevel());
             m_EnemyPool = new ObjectPool(m_Enemy, m_EnemyHolder, 30, false, null, CallDeactivate);
@@ -87,6 +88,12 @@ namespace praveen.One
         {
             return (level * 2) - 1;
         }
+
+        public static int GetEnemyGunPowerByLvl(int lvl)
+        {
+            return (lvl * 2) - 1;
+        }
+
 
         /// <summary>
         /// Number of enemies per session

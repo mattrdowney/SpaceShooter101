@@ -10,6 +10,8 @@ namespace praveen.One
         [SerializeField] Transform m_Gun;
         #endregion
 
+        int m_Damage = 100;
+
         void FixedUpdate()
         {
             transform.Translate(Vector3.down * Time.deltaTime * m_Speed);
@@ -42,7 +44,8 @@ namespace praveen.One
                 bullet.transform.localRotation = Quaternion.identity;
                 bullet.layer = 11;
                 bullet.tag = "EnemyBullet";
-                bullet.GetComponent<Bullet>().Program(10, 10, BulletOwner.enemy);
+                int bulletDamage = EnemyController.GetEnemyGunPowerByLvl(GameManager.Instance.GetLevel());
+                bullet.GetComponent<Bullet>().Program(10, bulletDamage, BulletOwner.enemy);
                 bullet.SetActive(true);
                 yield return new WaitForSeconds(1);
             }
@@ -56,6 +59,10 @@ namespace praveen.One
             Destroy();
         }
 
+        /// <summary>
+        /// Get Damage from bullet
+        /// </summary>
+        /// <param name="damage"></param>
         public override void Damage(int damage)
         {
             base.Damage(damage);
@@ -80,6 +87,14 @@ namespace praveen.One
             if (this.transform.position.y < GameManager.Instance.GetLowerScreenY() - 4f)
             {
                 EnemyController.RecycleEnemy(this.gameObject);
+            }
+        }
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.tag == "Player")
+            {
+                collision.gameObject.SendMessage("Damage", m_Damage);
             }
         }
     }

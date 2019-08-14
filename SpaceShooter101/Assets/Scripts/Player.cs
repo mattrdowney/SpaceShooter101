@@ -106,7 +106,11 @@ namespace praveen.One
             bullet.transform.localRotation = Quaternion.identity;
             bullet.layer = 10;
             bullet.tag = "PlayerBullet";
-            bullet.GetComponent<Bullet>().Program(10, 10, BulletOwner.player);
+
+            int currentGunLvl = GameManager.Instance.GetCurrentAmorData().GunLevel;
+            int bulletDamage = DataBank.GetGunPowerData()[currentGunLvl];
+
+            bullet.GetComponent<Bullet>().Program(10, bulletDamage, BulletOwner.player);
             bullet.SetActive(true);
 
             StartCoroutine(ReloadGun());
@@ -165,7 +169,7 @@ namespace praveen.One
             if (m_IsShieldActive)
                 return;
 
-            GameManager.Instance.OnPlayerHit(10);
+            GameManager.Instance.OnPlayerHit(damage);
             if (OnPlayerHit != null)
             {
                 OnPlayerHit();

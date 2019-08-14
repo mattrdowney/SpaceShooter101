@@ -31,6 +31,9 @@ this is a simple unity 3d project just created for demonostration purpose. Here 
   - Holds maximum 5 high scores with player name
   - There will be dummy data for demonostration purpose
 
+##### How to Play
+  - Clone or download the repocitory and start from "Start" Scene
+
 ### Tech
   - Game Engine : unity 2019.1.1f1
   - Development enviromnent : OSX

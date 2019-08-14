@@ -89,7 +89,7 @@ namespace praveen.One
             }
             DontDestroyOnLoad(this.gameObject);
 
-            PlayerPrefs.DeleteAll() ;
+            //PlayerPrefs.DeleteAll() ;
 
             ReadSavedData();
         }

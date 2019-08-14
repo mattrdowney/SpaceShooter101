@@ -63,6 +63,15 @@ namespace praveen.One
             return m_ShieldDict;
         }
 
+        /// <summary>
+        /// Returns player damage by level
+        /// </summary>
+        /// <param name="lvl"></param>
+        /// <returns></returns>
+        public static int GetGunPowerDamageByLevel(int lvl)
+        {
+            return lvl * 2;
+        }
 
     }
 }

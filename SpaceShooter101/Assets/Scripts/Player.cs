@@ -28,6 +28,7 @@ namespace praveen.One
             m_IsGunReloaded = true;
             m_IsMissileReloaded = true;
             m_PlayerTransform = this.transform;
+            StartCoroutine(ActivateInitialShield());
         }
 
         // Update is called once per frame
@@ -46,6 +47,17 @@ namespace praveen.One
                 Vector3 newPos = m_PlayerTransform.transform.position + tempVect;
                 CheckBoundary(newPos);
             }
+        }
+
+        /// <summary>
+        /// Activate the shield when player spawn
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator ActivateInitialShield()
+        {
+            ShieldSetActive(true);
+            yield return new WaitForSeconds(3);
+            ShieldSetActive(false);
         }
 
         /// <summary>
@@ -108,7 +120,7 @@ namespace praveen.One
             bullet.tag = "PlayerBullet";
 
             int currentGunLvl = GameManager.Instance.GetCurrentAmorData().GunLevel;
-            int bulletDamage = DataBank.GetGunPowerData()[currentGunLvl];
+            int bulletDamage = DataBank.GetGunPowerDamageByLevel(currentGunLvl);
 
             bullet.GetComponent<Bullet>().Program(10, bulletDamage, BulletOwner.player);
             bullet.SetActive(true);
@@ -169,7 +181,7 @@ namespace praveen.One
             if (m_IsShieldActive)
                 return;
 
-            GameManager.Instance.OnPlayerHit(damage);
+            GameManager.Instance.OnPlayerHit(damage, gameObject);
             if (OnPlayerHit != null)
             {
                 OnPlayerHit();

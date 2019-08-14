@@ -94,7 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57f9ca2bc11f4a30b18db52edc82e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 10
+  Speed: 0
+  Damage: 0
+  Owner: 2
+  m_ExplosionParticle: {fileID: 100008, guid: a93496017806b7740910df5fd946f306, type: 3}
 --- !u!70 &6062965455851536454
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

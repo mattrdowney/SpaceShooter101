@@ -198,16 +198,16 @@ namespace praveen.One
         /// Triggerd when player got hit
         /// </summary>
         /// <param name="damage"></param>
-        public void OnPlayerHit(float damage, GameObject player)
+        public void OnPlayerHit(float damage, Player player)
         {
             m_Session.HP -= damage;
             HudController.Instance.SetPlayerHP(m_Session.HP / 100);
 
             if(m_Session.HP < 0)
             {
-                if(m_Session.Lifes > 1)
+                player.Destroy();
+                if (m_Session.Lifes > 1)
                 {
-                    Destroy(player);
                     m_Session.HP = 100f;
                     m_Session.Lifes -= 1;
                     PlayerController.Instance.SpawnPlayer();

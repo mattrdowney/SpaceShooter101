@@ -8,6 +8,7 @@ namespace praveen.One
         #region SerializedFields
         [SerializeField] float m_Speed = 100;
         [SerializeField] Transform m_Gun;
+        [SerializeField] GameObject m_ExplosionParticle;
         #endregion
 
         bool m_IsGunReloaded;
@@ -181,7 +182,7 @@ namespace praveen.One
             if (m_IsShieldActive)
                 return;
 
-            GameManager.Instance.OnPlayerHit(damage, gameObject);
+            GameManager.Instance.OnPlayerHit(damage, this);
             if (OnPlayerHit != null)
             {
                 OnPlayerHit();
@@ -190,7 +191,9 @@ namespace praveen.One
 
         public override void Destroy()
         {
-            base.Destroy();
+            GameObject go = Instantiate(m_ExplosionParticle);
+            go.transform.position = gameObject.transform.position;
+            Destroy(gameObject);
         }
 
     }

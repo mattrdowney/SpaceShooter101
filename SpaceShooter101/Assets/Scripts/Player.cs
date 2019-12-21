@@ -35,6 +35,7 @@ namespace praveen.One
         // Update is called once per frame
         void FixedUpdate()
         {
+            // REVIEW (readability): try to use horizontal and vertical here so it's easier to read.
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
@@ -57,6 +58,7 @@ namespace praveen.One
         IEnumerator ActivateInitialShield()
         {
             ShieldSetActive(true);
+            // REVIEW (readability, efficiency): where possible, you can create a variable "WaitForSeconds shield_duration = new WaitForSeconds(3);" in the class fields, that way you make the code more readable/expressive (and save the garbage collector from extra work).
             yield return new WaitForSeconds(3);
             ShieldSetActive(false);
         }
@@ -78,8 +80,10 @@ namespace praveen.One
             m_PlayerTransform.position = Camera.main.ViewportToWorldPoint(camViewPoint);
         }
 
+        // REVIEW (compliment): good job on using Update for player inputs (that's super important so you don't miss player inputs).
         private void Update()
         {
+            // REVIEW (readability): it's probably better to use the Unity idiom Input.GetButton(), even if the user would never reconfigure the control scheme.
             if (Input.GetMouseButton(0))
             {
                 Shoot();
@@ -113,8 +117,11 @@ namespace praveen.One
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             m_Gun.transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
 
+            // REVIEW (compliment): good job with object pooling
             GameObject bullet = BulletController.Instance.GetBullet(BulletOwner.player);
+            // REVIEW (correctness): generally bullets are not parented to the gun they were fired from (since they exist far away).
             bullet.transform.SetParent(m_Gun);
+            // REVIEW (readability, efficiency): you should be able to set these in the object pool instead (most do not need to be reset).
             bullet.transform.localPosition = Vector3.zero;
             bullet.transform.localRotation = Quaternion.identity;
             bullet.layer = 10;
@@ -123,6 +130,7 @@ namespace praveen.One
             int currentGunLvl = GameManager.Instance.GetCurrentAmorData().GunLevel;
             int bulletDamage = DataBank.GetGunPowerDamageByLevel(currentGunLvl);
 
+            // REVIEW (compliment): good job on using .GetComponent<>(), which is generally better than .SendMessage()
             bullet.GetComponent<Bullet>().Program(10, bulletDamage, BulletOwner.player);
             bullet.SetActive(true);
 

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace praveen.One
 {
+    // REVIEW (maintainability): I put structs/classes in their own file (unless I use the "internal" keyword instead of public/private/protected which is extremely niche in C#).
+    // REVIEW (readability): somewhere between a typo and an incorrect name; ShooterArmor would fix the typo but not describe what the struct represents; consider "GunStats"
+    // REVIEW (readability): In general, when classes get to ~200-500+ lines, you should start considering refactoring them into smaller files.
     [System.Serializable]
     public struct ShooterAmor
     {
@@ -15,6 +18,7 @@ namespace praveen.One
         public int MagazineCapacity;
         public int MissileCount;
 
+        // REVIEW (readability): in this case you could probably get away with object initializers instead of a constructor ( https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-initialize-objects-by-using-an-object-initializer )
         public ShooterAmor(int gunLvl, int missileMagLvl, int magCapacity, int missileCount)
         {
             this.GunLevel           = gunLvl;
@@ -54,13 +58,15 @@ namespace praveen.One
         //static Dictionary<int, MissileMagazine> m_MissileMagazine    = new Dictionary<int, MissileMagazine>();
         //static Dictionary<int, Shield> m_ShieldDict                  = new Dictionary<int, Shield>();
 
+        // REVIEW (compliment): nicely done on the composition (so you don't require code folding like below)
         ShooterAmor m_ShooterAmor;
 
         static int m_MissileCost;
         static int m_LifeCost;
         bool m_BoughtLife;
 
-
+        // REVIEW (readability, extremely opinionated): I never use #regions or code folding because you can instead: 1) create data container objects 2) reduce filesize 3) create more methods
+        // REVIEW (correctness): I don't think any of the below types can be serialized.
         #region SerializedFields
         [SerializeField] Text m_Coins;
         [SerializeField] Text m_MissileCount;
@@ -94,6 +100,7 @@ namespace praveen.One
             Init();
         }
 
+        // REVIEW (readability): you have this code in version control, so just remove unused implementation (if you need it again you can always get it from version control).
         /// <summary>
         /// Initialize upgrade data
         /// </summary>
@@ -187,6 +194,10 @@ namespace praveen.One
 
         }
 
+        // REVIEW (compliment): you have great function names in my opinion.
+        // REVIEW (mutating getter): functions are either (inspectors -- readonly / const; mutators -- change global or local state somehow including input/output); you have a getter that is mutating the game state with "m_GunUpgradeBtn.interactable = false;"
+        // REVIEW (commenting): the summary is redundant, I would personally write "Inspector (with above caveat) -- Fetches the gun's current power level e.g. to be printed on the user interface for the player."
+        // REVIEW (maintainability): my personal opinion is that documenting parameters and return types is often more important than the summary (at least when you have good function names), since those are the easiest to misunderstand. E.g. this could be 1) the gun's level 2) the player's level 3) the world level
         /// <summary>
         /// Get the gun power information text
         /// </summary>
@@ -194,6 +205,7 @@ namespace praveen.One
         /// <returns></returns>
         string GetGunPowerInfoText(int currentLvl)
         {
+            // REVIEW (information without recommendation): Linq is incredibly powerful, and useful (this code should be 100% fine); that being said in areas where performance is crucial, game developers are particularly reluctant to use Linq. 
             if (currentLvl == DataBank.GetGunPowerData().OrderByDescending(x => x.Value).First().Key)
             {
                 m_GunUpgradeBtn.interactable = false;
@@ -235,6 +247,7 @@ namespace praveen.One
                 GetCostString(m_MissileCost);
         }
 
+        // REVIEW (design pattern): there seems to be a lot of similar code here, which indicates you might be able to create a .ToString() or better .ToShopInfo() function for e.g. the Shield class (and all the other classes).
         /// <summary>
         /// Get Shield infomation text
         /// </summary>
@@ -358,6 +371,7 @@ namespace praveen.One
             return cost <= coinsInHand;
         }
 
+        // REVIEW (readability): I don't have a suggestion here, but this seems like a code smell that could be removed with better organization.
         /// <summary>
         /// Click upgrade gun button
         /// </summary>

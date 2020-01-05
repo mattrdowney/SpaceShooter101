@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 namespace praveen.One
 {
+    // REVIEW (architecture): sometimes a lot of data clumps can be a code smell when it comes to design patterns.
+    // This isn't always bad, but it may be better to avoid constructors and use object initializers https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-initialize-objects-by-using-an-object-initializer
     public struct ShooterSession
     {
         public bool IsActive;
@@ -111,6 +113,7 @@ namespace praveen.One
             }
             else
             {
+                // REVIEW (compliment, architecture): as far as I can tell, this is a really smart idea
                 m_ShooterData = JsonUtility.FromJson<ShooterData>(shooterData);
             }
 
@@ -143,6 +146,7 @@ namespace praveen.One
             else
             {
                 // Start New Game
+                // REVIEW (architecture): it's probably better to have the ShooterSession control its own initialization. These parameters are basically hardcoded, so it's not like anything useful is gained with the GameManager's input.
                 m_Session = new ShooterSession(true,1, 0 ,3 , 100 , 0);
             }
 
@@ -157,6 +161,7 @@ namespace praveen.One
         /// </summary>
         void UpdateHUD()
         {
+            // REVIEW (compliment, architecture): I like the format here. There's a clear list of upkeep items to be done and they're just listed. If you can find a way to indirectly pass these parameters it'd be great but I can't think of one off the top of my head.
             HudController.Instance.SetPlayerLifes(m_Session.Lifes);
             HudController.Instance.SetPlayerHP(m_Session.HP/ 100);
             HudController.Instance.SetCoins(m_ShooterData.CoinsInHand);
@@ -238,6 +243,8 @@ namespace praveen.One
             return m_Session.Level;
         }
 
+        // REVIEW (architecture, organization): You should probably make a static camera utility class to control things like this.
+
         /// <summary>
         /// Returns world position of Upper Left Screen boundry
         /// </summary>
@@ -282,7 +289,7 @@ namespace praveen.One
         {
             return m_ShooterData.CurrentShield;
         }
-
+        
         /// <summary>
         /// Add Coins
         /// </summary>
@@ -360,6 +367,7 @@ namespace praveen.One
             return m_ShooterData.CoinsInHand;
         }
 
+        // REVIEW (architecture): I feel like the Gun should upgrade itself and return a enum/flag/boolean to indicate whether or not it succeeded. You might have to separate out some data (but I think it would be more organized that way).
         /// <summary>
         /// Upgrade player gun
         /// </summary>

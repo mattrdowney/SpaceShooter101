@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace praveen.One
 {
+    // REVIEW (architecture): It would be nice if there were a way to combine the variable shared between this and GameManager into a common data class. My first thought was to look for a common interface for each object e.g. SetText() and SetValue() which would look into a dictionary. No good recommendations but it's something to think about.
     public class HudController : MonoBehaviour
     {
         #region singleton stuff

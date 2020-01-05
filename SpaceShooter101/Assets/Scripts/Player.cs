@@ -63,6 +63,7 @@ namespace praveen.One
             ShieldSetActive(false);
         }
 
+        // REVIEW (architecture): this also indicates it might be nice to have a static CameraUtility class.
         /// <summary>
         /// Check the boundries to move
         /// </summary>
@@ -83,7 +84,7 @@ namespace praveen.One
         // REVIEW (compliment): good job on using Update for player inputs (that's super important so you don't miss player inputs).
         private void Update()
         {
-            // REVIEW (readability): it's probably better to use the Unity idiom Input.GetButton(), even if the user would never reconfigure the control scheme.
+            // REVIEW (architecture, readability): it's probably better to use the Unity idiom Input.GetButton(), even if the user would never reconfigure the control scheme.
             if (Input.GetMouseButton(0))
             {
                 Shoot();

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace praveen.One
 {
+    // REVIEW (architecture): this is the class with the most need for an architecture refactoring. I don't know the right way to go about it, though.
     // REVIEW (maintainability): I put structs/classes in their own file (unless I use the "internal" keyword instead of public/private/protected which is extremely niche in C#).
     // REVIEW (readability): somewhere between a typo and an incorrect name; ShooterArmor would fix the typo but not describe what the struct represents; consider "GunStats"
     // REVIEW (readability): In general, when classes get to ~200-500+ lines, you should start considering refactoring them into smaller files.
@@ -146,7 +147,7 @@ namespace praveen.One
             int nextGunPowerCost = GetNextGunCost(m_ShooterAmor.GunLevel);
             int nextMissileMagCost = GetNextMissileMagazineCost(m_ShooterAmor.MissileMagazineLvl);
 
-
+            // REVIEW (architecture): maybe it would be a good idea to add a helper function (or class) that deals with this maxValue, value, interactable, text pattern in the code.
             //////
             // Set Gun Power Related Stuff
             //////

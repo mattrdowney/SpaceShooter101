@@ -27,6 +27,7 @@ namespace praveen.One
         /// </summary>
         public override void Shoot()
         {
+            // REVIEW (compliment, architecture): using coroutines is a good architecture decision in my opinion (since you don't have to worry about e.g. tracking time manually).
             StartCoroutine(EnemyShoot());
         }
 
@@ -45,6 +46,7 @@ namespace praveen.One
                 bullet.layer = 11;
                 bullet.tag = "EnemyBullet";
                 int bulletDamage = EnemyController.GetEnemyGunPowerByLvl(GameManager.Instance.GetLevel());
+                // REVIEW (compliment, architecture): this is the good way to do object-oriented programming in Unity (as opposed to SendMessage which is better to avoid)
                 bullet.GetComponent<Bullet>().Program(10, bulletDamage, BulletOwner.enemy);
                 bullet.SetActive(true);
                 yield return new WaitForSeconds(1);
@@ -90,10 +92,12 @@ namespace praveen.One
             }
         }
 
+        // REVIEW (architecture): I consider tags versus layers to be a software architecture decision. Generally the less tags you use the simpler the game logic becomes.
         void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.collider.tag == "Player")
-            {
+            { 
+                // REVIEW (compliment, architecture): I guess you only have one instance of .SendMessage() in your entire code, which is good, but you can always add more simple components that communicate through .GetComponent() if you find chances to do it.
                 collision.gameObject.SendMessage("Damage", m_Damage);
             }
         }

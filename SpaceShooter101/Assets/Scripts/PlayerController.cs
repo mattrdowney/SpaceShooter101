@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace praveen.One
 {
+    // REVIEW (architecture): unless you're planning to have multiple players, it's probably better to just add a static respawn function to the Player class in my opinion.
     public class PlayerController : MonoBehaviour
     {
         #region singleton stuff
